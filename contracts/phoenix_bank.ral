@@ -1,0 +1,177 @@
+Contract PhoenixBank(
+    baseTokenId: ByteVec,
+    symbol: ByteVec,
+    name: ByteVec,
+    bankFeeNum: U256, // out of 1000, minimum 10
+    creatorFeeNum: U256, // out of 1000, minimum 0
+    // below fields must not be manually edited
+    decimals: U256, // same as base token
+    totalTokenSupply: U256, // same as base token
+    minBankValue: U256, // should be one unit of token so for ALPH, 10 ** 18
+    mut reserveIn: U256, // should be one unit of token so for ALPH, 10 ** 18
+    mut hodlTokenIn: U256 // hodlToken balance
+) extends PhoenixConstants() implements IPhoenixHodl {
+
+    pub fn getTotalSupply() -> U256 {
+        return totalTokenSupply
+    }
+
+    pub fn getSymbol() -> ByteVec {
+        return symbol
+    }
+
+    pub fn getName() -> ByteVec {
+        return name
+    }
+
+    pub fn getDecimals() -> U256 {
+        return decimals
+    }
+
+    pub fn getHodlTokenBalance() -> U256 {
+        return hodlTokenIn
+    }
+
+    pub fn getBaseBalance() -> U256 {
+        return reserveIn
+    }
+
+    pub fn getDevFeeNum() -> U256 {
+        return divUp(bankFeeNum, 10) // dev fee is 10% of bank fee
+    }
+
+    pub fn getBankFeeNum() -> U256 {
+        return bankFeeNum
+    }
+
+    pub fn getCreatorFeeNum() -> U256 {
+        return creatorFeeNum
+    }
+
+    pub fn getFeeDenom() -> U256 {
+        return FeeDenom
+    }
+
+    pub fn getMinBankValue() -> U256 {
+        return minBankValue
+    }
+
+    pub fn getCirculatingSupply() -> U256 {
+        let circulatingSupply = totalTokenSupply - hodlTokenIn
+        assert!(circulatingSupply >= 1, ErrorCodes.ZeroCirculation) // prevent division by zero
+        return totalTokenSupply - hodlTokenIn
+    }
+
+    pub fn getPrice() -> U256 {
+        return reserveIn / getCirculatingSupply()
+    }
+
+    @using(preapprovedAssets = true, assetsInContract = true, updateFields = true, checkExternalCaller = false)
+    pub fn mint(amountHodlTokenDesired: U256) -> () {
+
+        let caller = callerAddress!()
+
+        let priceNumerator = reserveIn
+        let priceDenominator = getCirculatingSupply()
+
+        let expectedAmountDeposited = divUp((amountHodlTokenDesired * priceNumerator), priceDenominator)
+        let reserveOut = reserveIn + expectedAmountDeposited
+
+        reserveIn = reserveOut // mutate base balance
+        hodlTokenIn = hodlTokenIn - amountHodlTokenDesired // mutate hodlToken balance
+
+        transferTokenToSelf!(caller, baseTokenId, expectedAmountDeposited) // transfer token from caller to bank
+        transferTokenFromSelf!(caller, selfTokenId!(), amountHodlTokenDesired) // transfer hodlToken from bank to caller
+
+        emit Mint(caller, amountHodlTokenDesired)
+ 
+    }
+
+
+    @using(preapprovedAssets = true, assetsInContract = true, updateFields = true, checkExternalCaller = false)
+    pub fn burn(amountHodlTokenToBurn: U256) -> () {
+
+        let devFeeNum = getDevFeeNum()
+
+        let caller = callerAddress!()
+
+        let priceNumerator = reserveIn
+        let priceDenominator = getCirculatingSupply()
+
+        let expectedAmountBeforeFees = (amountHodlTokenToBurn * priceNumerator) / priceDenominator
+
+        let totalFees = bankFeeNum + devFeeNum + creatorFeeNum
+        let totalFeeAmount = divUp(expectedAmountBeforeFees * totalFees, FeeDenom)
+    
+        let bankFeeAmount = divUp(totalFeeAmount * bankFeeNum, totalFees)
+    
+        let remainingFeeAmount = totalFeeAmount - bankFeeAmount
+    
+        let devAndCreatorTotal = devFeeNum + creatorFeeNum
+        let devFeeAmount = if (devAndCreatorTotal > 0) divUp(remainingFeeAmount * devFeeNum, devAndCreatorTotal) else 0
+        let creatorFeeAmount = if (devAndCreatorTotal > 0) remainingFeeAmount - devFeeAmount else 0
+    
+        let expectedUserAmount = expectedAmountBeforeFees - totalFeeAmount
+        
+        let reserveOut = reserveIn - expectedAmountBeforeFees + bankFeeAmount
+
+        assert!(reserveOut >= minBankValue, ErrorCodes.ZeroReserve)
+
+        reserveIn = reserveOut // mutate base balance
+        hodlTokenIn = hodlTokenIn + amountHodlTokenToBurn // mutate hodlToken balance
+
+        let requiredDust = dustAmount!() + dustAmount!() + dustAmount!()
+
+
+        transferTokenToSelf!(caller, selfTokenId!(), amountHodlTokenToBurn) // transfer hodlToken from caller to bank
+        transferTokenToSelf!(caller, ALPH, requiredDust) // collect dust to pay for dev and creator fees
+        transferTokenFromSelf!(caller, baseTokenId, expectedUserAmount) // transfer base from bank to caller
+        payDevs{selfAddress!() -> baseTokenId: devFeeAmount; selfAddress!() -> ALPH: requiredDust}(devFeeAmount) // transfer base from bank to dev
+
+        if(creatorFeeNum > 0) {
+            transferTokenFromSelf!(CreatorAddress, if(creatorFeeAmount == 0) ALPH else baseTokenId, if(baseTokenId == ALPH || creatorFeeAmount == 0) creatorFeeAmount + dustAmount!() else creatorFeeAmount) // transfer base from bank to creator
+        }
+
+        emit Burn(caller, amountHodlTokenToBurn, getPrice())
+    }
+
+    @using(preapprovedAssets = true, assetsInContract = true, updateFields = true, checkExternalCaller = false)
+    pub fn deposit(amountTokenToDeposit: U256) -> () {
+        // game mechanic, it only increases price, callers get NOTHING in return
+        let caller = callerAddress!()
+
+        reserveIn = reserveIn + amountTokenToDeposit // mutate base balance
+        transferTokenToSelf!(caller, baseTokenId, amountTokenToDeposit) // transfer base from caller to bank
+
+        emit Deposit(caller, amountTokenToDeposit, getPrice())
+    }
+
+    @using(preapprovedAssets = true, assetsInContract = false, updateFields = false, checkExternalCaller = false)
+    fn payDevs(amountToDistribute: U256) -> () {
+        checkCaller!(callerAddress!() == selfAddress!(), ErrorCodes.InvalidCaller) // must be called from within the contract
+        let brunoFee = 250
+        let phoenixFee = 750
+
+        let mut brunoAmount = (amountToDistribute * brunoFee) / FeeDenom
+        let mut phoenixAmount = (amountToDistribute * phoenixFee) / FeeDenom
+        let totalDistribution = brunoAmount + phoenixAmount
+
+        if(baseTokenId == ALPH || amountToDistribute == 0) {
+            brunoAmount = brunoAmount + dustAmount!()
+            phoenixAmount = phoenixAmount + dustAmount!()
+        }
+
+        if(amountToDistribute > totalDistribution) {
+            brunoAmount = brunoAmount + (amountToDistribute - totalDistribution) // give any remainder to Bruno
+        }
+
+        transferTokenFromSelf!(BrunoAddress, if(amountToDistribute == 0) ALPH else baseTokenId, brunoAmount)
+        transferTokenFromSelf!(PhoenixAddress, if(amountToDistribute == 0) ALPH else baseTokenId, phoenixAmount)
+    }
+
+
+    fn divUp(dividend: U256, divisor: U256) -> U256 {
+        assert!(divisor >= 1, ErrorCodes.DivideByZero)
+        return (dividend + (divisor - 1)) / divisor
+    }
+}

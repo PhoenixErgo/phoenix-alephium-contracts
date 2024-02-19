@@ -1,0 +1,85 @@
+import "std/fungible_token_interface"
+
+Contract PhoenixFactory(
+    mut phoenixBankTemplateId: ByteVec,
+    mut selfOwner: Address,
+    mut fee: U256,
+    mut active: Bool
+) extends Owned(selfOwner) {
+
+    enum ErrorCodes {
+        NotActive = 1
+    }
+
+    @using(updateFields = true, checkExternalCaller = true)
+    pub fn setPhoenixBankTemplateId(newTemplateId: ByteVec) -> () {
+        assertOwner(callerAddress!())
+        phoenixBankTemplateId = newTemplateId
+    }
+
+    pub fn getPhoenixBankTemplateId() -> (ByteVec) {
+        return phoenixBankTemplateId
+    }
+
+    @using(updateFields = true, checkExternalCaller = true)
+    pub fn setFee(newFee: U256) -> () {
+        assertOwner(callerAddress!())
+        fee = newFee
+    }
+
+    pub fn getFee() -> (U256) {
+        return fee
+    }
+
+    @using(updateFields = true, checkExternalCaller = true)
+    pub fn setActive(isACtive: Bool) -> () {
+        assertOwner(callerAddress!())
+        active = isACtive
+    }
+
+    pub fn getActive() -> (Bool) {
+        return active
+    }
+
+    @using(preapprovedAssets = true, assetsInContract = false, updateFields = false, checkExternalCaller = false)
+    pub fn createContract(baseTokenId: ByteVec, symbol: ByteVec, name: ByteVec, totalSupply: U256, bankFeeNum: U256, creatorFeeNum: U256) -> (ByteVec) {
+        
+        assert!(active, ErrorCodes.NotActive)
+
+        let caller = callerAddress!()
+        let baseTokenDecimals = if(baseTokenId == ALPH) 18 else IFungibleToken(baseTokenId).getDecimals()
+
+        let oneUnit = 10 ** baseTokenDecimals
+
+        let (encodedImmFields, encodedMutFields) = PhoenixBank.encodeFields!(
+            baseTokenId,
+            symbol,
+            name,
+            bankFeeNum,
+            creatorFeeNum,
+            baseTokenDecimals,
+            totalSupply,
+            oneUnit, // min value should be 1 whole unit
+            oneUnit, // balance starts as one whole unit
+            totalSupply - oneUnit // one unit removed to avoid divide by zero 
+        )
+
+        if(baseTokenId == ALPH){
+            return copyCreateContractWithToken!{caller -> ALPH: 2 alph}(
+                phoenixBankTemplateId,
+                encodedImmFields,
+                encodedMutFields,
+                totalSupply - oneUnit // one unit removed to avoid divide by zero, one unit could also be burned instead of not being minted
+            )
+            // transferToken!(caller, selfOwner, ALPH, fee)
+        } else {
+            return copyCreateContractWithToken!{caller -> ALPH: 1 alph, baseTokenId: oneUnit}(
+                phoenixBankTemplateId,
+                encodedImmFields,
+                encodedMutFields,
+                totalSupply - oneUnit
+            )
+            // transferToken!(caller, selfOwner, ALPH, fee)
+        }
+    }
+}

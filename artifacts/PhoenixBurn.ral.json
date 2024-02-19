@@ -1,0 +1,31 @@
+{
+  "version": "v2.5.7",
+  "name": "PhoenixBurn",
+  "bytecodeTemplate": "01010300000010b4{0}{1}a3b413c3038d7ea4c6800013c3038d7ea4c680002a13c3038d7ea4c680002aa2{1}0d0c{0}010e",
+  "fieldsSig": {
+    "names": [
+      "bank",
+      "amountHodlTokenToBurn"
+    ],
+    "types": [
+      "ByteVec",
+      "U256"
+    ],
+    "isMutable": [
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}

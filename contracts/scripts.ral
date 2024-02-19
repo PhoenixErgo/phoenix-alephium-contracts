@@ -1,0 +1,26 @@
+TxScript PhoenixMint(bank: PhoenixBank, baseTokenId: ByteVec, amountHodlTokenDesired: U256, baseTokenApprovalAmount: U256) {
+    bank.mint{callerAddress!() -> baseTokenId: baseTokenApprovalAmount}(amountHodlTokenDesired)
+}
+
+TxScript PhoenixBurn(bank: PhoenixBank, amountHodlTokenToBurn: U256) {
+    bank.burn{callerAddress!() -> tokenId!(bank): amountHodlTokenToBurn; callerAddress!() -> ALPH: dustAmount!() + dustAmount!() + dustAmount!()}(amountHodlTokenToBurn)
+}
+
+TxScript PhoenixDeposit(bank: PhoenixBank, baseTokenId: ByteVec, amountBaseTokenToDeposit: U256) {
+    bank.deposit{callerAddress!() -> baseTokenId: amountBaseTokenToDeposit}(amountBaseTokenToDeposit)
+}
+
+TxScript CreateContract(factory: PhoenixFactory, baseTokenId: ByteVec, symbol: ByteVec, name: ByteVec, totalSupply: U256, bankFeeNum: U256, creatorFeeNum: U256) {
+    if(baseTokenId == ALPH){
+        factory.createContract{callerAddress!() -> ALPH: 2 alph}(baseTokenId, symbol, name, totalSupply, bankFeeNum, creatorFeeNum)
+    } else {
+        let baseTokenDecimals = IFungibleToken(baseTokenId).getDecimals()
+        let oneUnit = 10 ** baseTokenDecimals
+        factory.createContract{callerAddress!() -> ALPH: 1 alph, baseTokenId: oneUnit}(baseTokenId, symbol, name, totalSupply, bankFeeNum, creatorFeeNum)
+    }
+    
+}
+
+TxScript Withdraw(token: USDToken, amount: U256) {
+    token.withdraw(amount)
+}
