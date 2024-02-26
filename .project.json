@@ -1,5 +1,5 @@
 {
-  "fullNodeVersion": "v2.5.7",
+  "fullNodeVersion": "v2.8.4",
   "compilerOptionsUsed": {
     "ignoreUnusedConstantsWarnings": false,
     "ignoreUnusedVariablesWarnings": false,
@@ -11,27 +11,27 @@
   "infos": {
     "CreateContract": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "e5d0b000612305db9a82554344348b72afe1d564a740bd9a08a19e6126dd111e",
+      "sourceCodeHash": "487e3a29403e277bf1f3f01485a3d9ec4384bec22c29423bb3ea7a71f2be7608",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "IFungibleToken": {
-      "sourceFile": "..\\..\\..\\..\\..\\..\\AppData\\Local\\npm-cache\\_npx\\f1b120e1b513c04c\\node_modules\\@alephium\\web3\\std\\fungible_token_interface.ral",
+      "sourceFile": "../../../../../../../../../../home/shishir/.npm/_npx/f1b120e1b513c04c/node_modules/@alephium/web3/std/fungible_token_interface.ral",
       "sourceCodeHash": "6809cb06fb20fa7edf529461998beeebd12b1636d439612cca2f84214dbf4a20",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "IPhoenixHodl": {
-      "sourceFile": "interfaces\\phoenix_hodl_interface.ral",
-      "sourceCodeHash": "de93735ec40938895db86039afea45fe9160043a8253ca562e643e4371000e9d",
+      "sourceFile": "interfaces/phoenix_hodl_interface.ral",
+      "sourceCodeHash": "891012955cd0c7059b52534cae95d6f0100f03394b401fb9c97ac4016b4309bf",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "Owned": {
-      "sourceFile": "traits\\owned.ral",
+      "sourceFile": "traits/owned.ral",
       "sourceCodeHash": "0ef251900385d40b43257da3a54ff0acbf5e77c0a605dc63036d659fe5052cbb",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
@@ -39,20 +39,20 @@
     },
     "PhoenixBank": {
       "sourceFile": "phoenix_bank.ral",
-      "sourceCodeHash": "31b46155e3161ed36b232c33597af26788ca43b8ba4261538b59ef2976245980",
+      "sourceCodeHash": "4917802a62746a270b9e4aa844a7e097a090ac2b1ecf2a40a98c3a97ecefaefb",
       "bytecodeDebugPatch": "",
-      "codeHashDebug": "768392090804c5a32fe9b90f390b03798baf4ab78388734933875fa79dd4f5c3",
+      "codeHashDebug": "b23a43a16439bb6fddae2e8107cd371f50ae226788a5309274390a261090e275",
       "warnings": []
     },
     "PhoenixBurn": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "e5d0b000612305db9a82554344348b72afe1d564a740bd9a08a19e6126dd111e",
+      "sourceCodeHash": "487e3a29403e277bf1f3f01485a3d9ec4384bec22c29423bb3ea7a71f2be7608",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "PhoenixConstants": {
-      "sourceFile": "traits\\phoenix_constants.ral",
+      "sourceFile": "traits/phoenix_constants.ral",
       "sourceCodeHash": "25e5abf146aeb50c7561db64d1cf30758d4e55e17ed2b961c539714af5a62d4f",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
@@ -60,27 +60,34 @@
     },
     "PhoenixDeposit": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "e5d0b000612305db9a82554344348b72afe1d564a740bd9a08a19e6126dd111e",
+      "sourceCodeHash": "487e3a29403e277bf1f3f01485a3d9ec4384bec22c29423bb3ea7a71f2be7608",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "PhoenixFactory": {
       "sourceFile": "phoenix_factory.ral",
-      "sourceCodeHash": "cfa6558c7515355e0d1afd6a36f04f4de35252616365359fc8b676e4ea6dc2e7",
+      "sourceCodeHash": "a5f52ed979725290167c434c0b33088ccdfbea68dc9155bdf6cd7fe4b56e5dff",
       "bytecodeDebugPatch": "",
-      "codeHashDebug": "69143430b6ccc09742f3cf5c1e87f18d441038b6e58f741550004f87997b85da",
+      "codeHashDebug": "639cbaf85b0c751b96ec7dfef2cc0412a7c55bc9151be78c2df59e40c5bc1c33",
+      "warnings": []
+    },
+    "PhoenixFactoryConstants": {
+      "sourceFile": "traits/phoenix_factory_constants.ral",
+      "sourceCodeHash": "bc8954059085a9e3228e27198a136f0e0f19e5558e940ba67f728b4a993958c2",
+      "bytecodeDebugPatch": "",
+      "codeHashDebug": "",
       "warnings": []
     },
     "PhoenixMint": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "e5d0b000612305db9a82554344348b72afe1d564a740bd9a08a19e6126dd111e",
+      "sourceCodeHash": "487e3a29403e277bf1f3f01485a3d9ec4384bec22c29423bb3ea7a71f2be7608",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "USDToken": {
-      "sourceFile": "tokens\\usd_token.ral",
+      "sourceFile": "tokens/usd_token.ral",
       "sourceCodeHash": "639b1949372c3f81f87fe15340258b91e9552b3d005643ec1edf940afe8c3427",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "69324141d38ba40b9a9b64a650372b9c26b5db5b05e50b33b13447776c1ac587",
@@ -88,7 +95,7 @@
     },
     "Withdraw": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "e5d0b000612305db9a82554344348b72afe1d564a740bd9a08a19e6126dd111e",
+      "sourceCodeHash": "487e3a29403e277bf1f3f01485a3d9ec4384bec22c29423bb3ea7a71f2be7608",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []

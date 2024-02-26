@@ -1,0 +1,407 @@
+{
+  "version": "v2.8.4",
+  "name": "PhoenixBank",
+  "bytecode": "0b1309121b4024402d4036403f40484051405a40674071408a409640d8428942a84406441d010000000102ce0102010000000102ce0202010000000102ce0502010000000102ce0602010000000102ce0002010000000102ce0302010000000102ce0402010000000102ce0702010000000102a00002010000000102a00102010000000104ce03130a0012020100000001021343e80201000001010dce06a0012b170016000d340c7bce06a0012b02010000000104a000000c2d0201010106004022b41701a0001702000c1703160016022c160300121704a00016042a17051605a100a00116002ba1011601ce001604ac1601b11600ab05160116005f010101110040a6000a1701b41702a0001703000c1704160016032c16042d1705ce0316012ace042a1706160516062c1343e8001217071607ce032c160600121708160716082b17091601ce042a170a160a0c334c06160916012c160a00124a010c170b160a0c334c041609160b2b4a010c170c160516072b170da00016052b16082a170e160ece07340d7b160ea100a00116002aa10113c3038d7ea4c6800013c3038d7ea4c680002a170f160f13c3038d7ea4c680002ace040c334c0213c3038d7ea4c680004a010c2a17101602b11600ac16021610a9b2ce00160ba3b2160fa2160b0011ce040c334c15ce00cd41160c0c2f1b4c06150038cd2d6fbc9132d77ec65ab126148651a7bcdb7b6a0e02d127742e82dfc26f9f160c13c3038d7ea4c680002aa84a07150038cd2d6fbc9132d77ec65ab126148651a7bcdb7b6a0e02d127742e82dfc26f9fce00160cab150038cd2d6fbc9132d77ec65ab126148651a7bcdb7b6a0e02d127742e82dfc26f9f13c3038d7ea4c68000a8ce00cd41160d0c2f1b4c061602160d13c3038d7ea4c680002aa84a071602ce00160dab160213c3038d7ea4c68000a80616021600000d6001010102000fb41701a00016002aa1001601ce001600ac0716011600000d600003010600404ab4b2450e7b1340fa17011342ee1702160016012c1343e82d170316000d2f4c020d4a05160016022c1343e82d1704160316042a170516001605334c061603160016052b2a1703ce00cd4116000c2f1b4c0b1500222e267608d913e2f418a0c16f3430732e342218ce0461c9d81418efe67c057f160313c3038d7ea4c680002aa81500a1576bfca455aaf9035af6ab0deef059b398716c284754f02bc2f2623068ca95160413c3038d7ea4c680002aa84a0e1500222e267608d913e2f418a0c16f3430732e342218ce0461c9d81418efe67c057fce001603ab1500a1576bfca455aaf9035af6ab0deef059b398716c284754f02bc2f2623068ca95ce001604ab1500222e267608d913e2f418a0c16f3430732e342218ce0461c9d81418efe67c057f13c3038d7ea4c68000a81500a1576bfca455aaf9035af6ab0deef059b398716c284754f02bc2f2623068ca9513c3038d7ea4c68000a800000202010d16010d340f7b160016010d2b2a16012d02",
+  "codeHash": "b23a43a16439bb6fddae2e8107cd371f50ae226788a5309274390a261090e275",
+  "fieldsSig": {
+    "names": [
+      "baseTokenId",
+      "symbol",
+      "name",
+      "bankFeeNum",
+      "creatorFeeNum",
+      "decimals",
+      "totalTokenSupply",
+      "minBankValue",
+      "reserveIn",
+      "hodlTokenIn",
+      "__stdInterfaceId"
+    ],
+    "types": [
+      "ByteVec",
+      "ByteVec",
+      "ByteVec",
+      "U256",
+      "U256",
+      "U256",
+      "U256",
+      "U256",
+      "U256",
+      "U256",
+      "ByteVec"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false
+    ]
+  },
+  "eventsSig": [
+    {
+      "name": "Mint",
+      "fieldNames": [
+        "address",
+        "amountHodlToken"
+      ],
+      "fieldTypes": [
+        "Address",
+        "U256"
+      ]
+    },
+    {
+      "name": "Burn",
+      "fieldNames": [
+        "address",
+        "amountHodlToken",
+        "newPrice"
+      ],
+      "fieldTypes": [
+        "Address",
+        "U256",
+        "U256"
+      ]
+    },
+    {
+      "name": "Deposit",
+      "fieldNames": [
+        "address",
+        "amountHodlToken",
+        "newPrice"
+      ],
+      "fieldTypes": [
+        "Address",
+        "U256",
+        "U256"
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "name": "getSymbol",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "ByteVec"
+      ]
+    },
+    {
+      "name": "getName",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "ByteVec"
+      ]
+    },
+    {
+      "name": "getDecimals",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getTotalSupply",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getbaseTokenId",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "ByteVec"
+      ]
+    },
+    {
+      "name": "getBankFeeNum",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getCreatorFeeNum",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getMinBankValue",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getBaseBalance",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getHodlTokenBalance",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getDevFeeNum",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getFeeDenom",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getCirculatingSupply",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getPrice",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "mint",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [
+        "amountHodlTokenDesired"
+      ],
+      "paramTypes": [
+        "U256"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "burn",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [
+        "amountHodlTokenToBurn"
+      ],
+      "paramTypes": [
+        "U256"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "deposit",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [
+        "amountTokenToDeposit"
+      ],
+      "paramTypes": [
+        "U256"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "payDevs",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": false,
+      "paramNames": [
+        "amountToDistribute"
+      ],
+      "paramTypes": [
+        "U256"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "divUp",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": false,
+      "paramNames": [
+        "dividend",
+        "divisor"
+      ],
+      "paramTypes": [
+        "U256",
+        "U256"
+      ],
+      "paramIsMutable": [
+        false,
+        false
+      ],
+      "returnTypes": [
+        "U256"
+      ]
+    }
+  ],
+  "constants": [
+    {
+      "name": "FeeDenom",
+      "value": {
+        "type": "U256",
+        "value": "1000"
+      }
+    },
+    {
+      "name": "PhoenixAddress",
+      "value": {
+        "type": "Address",
+        "value": "1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe"
+      }
+    },
+    {
+      "name": "BrunoAddress",
+      "value": {
+        "type": "Address",
+        "value": "13JRgHCUFnJcHXAx52QvSQ1MgghJiyyAMGMvLT9t3NaRc"
+      }
+    },
+    {
+      "name": "CreatorAddress",
+      "value": {
+        "type": "Address",
+        "value": "14pjHtCtxQ5UQfZJ8vQiyQwXvgRg9rnUipdL9JSjCQfm8"
+      }
+    }
+  ],
+  "enums": [
+    {
+      "name": "ErrorCodes",
+      "fields": [
+        {
+          "name": "ZeroCirculation",
+          "value": {
+            "type": "U256",
+            "value": "0"
+          }
+        },
+        {
+          "name": "ZeroReserve",
+          "value": {
+            "type": "U256",
+            "value": "1"
+          }
+        },
+        {
+          "name": "InvalidCaller",
+          "value": {
+            "type": "U256",
+            "value": "2"
+          }
+        },
+        {
+          "name": "DivideByZero",
+          "value": {
+            "type": "U256",
+            "value": "3"
+          }
+        }
+      ]
+    }
+  ],
+  "stdInterfaceId": "0001"
+}

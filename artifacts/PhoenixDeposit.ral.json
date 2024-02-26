@@ -1,0 +1,37 @@
+{
+  "version": "v2.8.4",
+  "name": "PhoenixDeposit",
+  "bytecodeTemplate": "01010300010013{3}0c334c061500a1576bfca455aaf9035af6ab0deef059b398716c284754f02bc2f2623068ca951700b41600{3}a7b4{1}{2}a3{2}0d0c{0}0110",
+  "fieldsSig": {
+    "names": [
+      "bank",
+      "baseTokenId",
+      "amountBaseTokenToDeposit",
+      "interfaceFee"
+    ],
+    "types": [
+      "ByteVec",
+      "ByteVec",
+      "U256",
+      "U256"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "version": "v2.8.4",
+  "name": "CreateContract",
+  "bytecodeTemplate": "0101030006004045{7}0c334c061500a1576bfca455aaf9035af6ab0deef059b398716c284754f02bc2f2623068ca951700b41600{7}a70c0d{0}01051701{1}cd414c1313c41bc16d674ec800001702b4160216012aa2{1}{2}{3}{4}{5}{6}13060d{0}010e184a1f0c0d{1}01021703130a160383170413c40de0b6b3a76400001705b47a160516012aa2{1}1604a3{1}{2}{3}{4}{5}{6}13060d{0}010e18",
+  "fieldsSig": {
+    "names": [
+      "factory",
+      "baseTokenId",
+      "symbol",
+      "name",
+      "totalSupply",
+      "bankFeeNum",
+      "creatorFeeNum",
+      "interfaceFee"
+    ],
+    "types": [
+      "ByteVec",
+      "ByteVec",
+      "ByteVec",
+      "ByteVec",
+      "U256",
+      "U256",
+      "U256",
+      "U256"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}
