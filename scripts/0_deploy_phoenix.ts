@@ -1,13 +1,12 @@
 import { Deployer, DeployFunction, Network } from '@alephium/cli';
-import { Settings } from '../alephium.config';
 import { PhoenixBank } from '../artifacts/ts';
 import { ALPH_TOKEN_ID, ONE_ALPH } from '@alephium/web3';
 
 // This deploy function will be called by cli deployment tool automatically
 // Note that deployment scripts should prefixed with numbers (starting from 0)
-const deployBank: DeployFunction<Settings> = async (
+const deployBank: DeployFunction<{}> = async (
   deployer: Deployer,
-  network: Network<Settings>
+  network: Network<{}>
 ): Promise<void> => {
   const result = await deployer.deployContract(PhoenixBank, {
     issueTokenAmount: ONE_ALPH * 10n ** 9n - ONE_ALPH,
