@@ -1,4 +1,5 @@
 import { Configuration } from '@alephium/cli';
+import 'dotenv/config'
 
 const privateKeys = () => {
   const pks = process.env.PRIVATE_KEYS;
@@ -28,8 +29,7 @@ const config: Configuration<unknown> = {
       settings: defaultSettings,
     },
     mainnet: {
-      nodeUrl:
-        process.env.NODE_URL ??
+      nodeUrl: process.env.NODE_URL ??
         'https://wallet-v20.mainnet.alephium.org',
       privateKeys: privateKeys(),
       settings: defaultSettings,
