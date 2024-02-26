@@ -1,22 +1,41 @@
-TxScript PhoenixMint(bank: PhoenixBank, baseTokenId: ByteVec, amountHodlTokenDesired: U256, baseTokenApprovalAmount: U256) {
+TxScript PhoenixMint(bank: PhoenixBank, baseTokenId: ByteVec, amountHodlTokenDesired: U256, baseTokenApprovalAmount: U256, interfaceFee: U256) {
+    if(interfaceFee > 0){
+        let recipient = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
+        transferToken!{callerAddress!() -> ALPH: interfaceFee}(callerAddress!(), recipient, ALPH, interfaceFee)
+    }
     bank.mint{callerAddress!() -> baseTokenId: baseTokenApprovalAmount}(amountHodlTokenDesired)
 }
 
-TxScript PhoenixBurn(bank: PhoenixBank, amountHodlTokenToBurn: U256) {
-    bank.burn{callerAddress!() -> tokenId!(bank): amountHodlTokenToBurn; callerAddress!() -> ALPH: dustAmount!() + dustAmount!() + dustAmount!()}(amountHodlTokenToBurn)
+TxScript PhoenixBurn(bank: PhoenixBank, amountHodlTokenToBurn: U256, interfaceFee: U256) {
+    if(interfaceFee > 0){
+        let recipient = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
+        transferToken!{callerAddress!() -> ALPH: interfaceFee}(callerAddress!(), recipient, ALPH, interfaceFee)
+    }
+    bank.burn{callerAddress!() -> tokenId!(bank): amountHodlTokenToBurn; callerAddress!() -> ALPH: dustAmount!() + dustAmount!() + dustAmount!() + dustAmount!()}(amountHodlTokenToBurn)
 }
 
-TxScript PhoenixDeposit(bank: PhoenixBank, baseTokenId: ByteVec, amountBaseTokenToDeposit: U256) {
+TxScript PhoenixDeposit(bank: PhoenixBank, baseTokenId: ByteVec, amountBaseTokenToDeposit: U256, interfaceFee: U256) {
+    if(interfaceFee > 0){
+        let recipient = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
+        transferToken!{callerAddress!() -> ALPH: interfaceFee}(callerAddress!(), recipient, ALPH, interfaceFee)
+    }
     bank.deposit{callerAddress!() -> baseTokenId: amountBaseTokenToDeposit}(amountBaseTokenToDeposit)
 }
 
-TxScript CreateContract(factory: PhoenixFactory, baseTokenId: ByteVec, symbol: ByteVec, name: ByteVec, totalSupply: U256, bankFeeNum: U256, creatorFeeNum: U256) {
+TxScript CreateContract(factory: PhoenixFactory, baseTokenId: ByteVec, symbol: ByteVec, name: ByteVec, totalSupply: U256, bankFeeNum: U256, creatorFeeNum: U256, interfaceFee: U256) {
+    if(interfaceFee > 0){
+        let recipient = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
+        transferToken!{callerAddress!() -> ALPH: interfaceFee}(callerAddress!(), recipient, ALPH, interfaceFee)
+    }
+    let fee = factory.getFee()
     if(baseTokenId == ALPH){
-        factory.createContract{callerAddress!() -> ALPH: 2 alph}(baseTokenId, symbol, name, totalSupply, bankFeeNum, creatorFeeNum)
+        let baseAlphAmount = 2 alph
+        factory.createContract{callerAddress!() -> ALPH: baseAlphAmount + fee}(baseTokenId, symbol, name, totalSupply, bankFeeNum, creatorFeeNum)
     } else {
         let baseTokenDecimals = IFungibleToken(baseTokenId).getDecimals()
         let oneUnit = 10 ** baseTokenDecimals
-        factory.createContract{callerAddress!() -> ALPH: 1 alph, baseTokenId: oneUnit}(baseTokenId, symbol, name, totalSupply, bankFeeNum, creatorFeeNum)
+        let alphAmount = 1 alph
+        factory.createContract{callerAddress!() -> ALPH: alphAmount + fee, baseTokenId: oneUnit}(baseTokenId, symbol, name, totalSupply, bankFeeNum, creatorFeeNum)
     }
     
 }

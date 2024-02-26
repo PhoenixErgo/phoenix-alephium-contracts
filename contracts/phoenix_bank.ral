@@ -12,8 +12,8 @@ Contract PhoenixBank(
     mut hodlTokenIn: U256 // hodlToken balance
 ) extends PhoenixConstants() implements IPhoenixHodl {
 
-    pub fn getTotalSupply() -> U256 {
-        return totalTokenSupply
+    pub fn getbaseTokenId() -> ByteVec {
+        return baseTokenId
     }
 
     pub fn getSymbol() -> ByteVec {
@@ -24,22 +24,6 @@ Contract PhoenixBank(
         return name
     }
 
-    pub fn getDecimals() -> U256 {
-        return decimals
-    }
-
-    pub fn getHodlTokenBalance() -> U256 {
-        return hodlTokenIn
-    }
-
-    pub fn getBaseBalance() -> U256 {
-        return reserveIn
-    }
-
-    pub fn getDevFeeNum() -> U256 {
-        return divUp(bankFeeNum, 10) // dev fee is 10% of bank fee
-    }
-
     pub fn getBankFeeNum() -> U256 {
         return bankFeeNum
     }
@@ -48,12 +32,32 @@ Contract PhoenixBank(
         return creatorFeeNum
     }
 
-    pub fn getFeeDenom() -> U256 {
-        return FeeDenom
+    pub fn getDecimals() -> U256 {
+        return decimals
+    }
+
+    pub fn getTotalSupply() -> U256 {
+        return totalTokenSupply
     }
 
     pub fn getMinBankValue() -> U256 {
         return minBankValue
+    }
+
+    pub fn getBaseBalance() -> U256 {
+        return reserveIn
+    }
+
+    pub fn getHodlTokenBalance() -> U256 {
+        return hodlTokenIn
+    }
+
+    pub fn getDevFeeNum() -> U256 {
+        return divUp(bankFeeNum, 10) // dev fee is 10% of bank fee
+    }
+
+    pub fn getFeeDenom() -> U256 {
+        return FeeDenom
     }
 
     pub fn getCirculatingSupply() -> U256 {
@@ -120,16 +124,27 @@ Contract PhoenixBank(
         reserveIn = reserveOut // mutate base balance
         hodlTokenIn = hodlTokenIn + amountHodlTokenToBurn // mutate hodlToken balance
 
-        let requiredDust = dustAmount!() + dustAmount!() + dustAmount!()
-
+        let devDust = dustAmount!() + dustAmount!()
+        let requiredDust = devDust + dustAmount!() + if(creatorFeeNum > 0) dustAmount!() else 0
 
         transferTokenToSelf!(caller, selfTokenId!(), amountHodlTokenToBurn) // transfer hodlToken from caller to bank
         transferTokenToSelf!(caller, ALPH, requiredDust) // collect dust to pay for dev and creator fees
-        transferTokenFromSelf!(caller, baseTokenId, expectedUserAmount) // transfer base from bank to caller
-        payDevs{selfAddress!() -> baseTokenId: devFeeAmount; selfAddress!() -> ALPH: requiredDust}(devFeeAmount) // transfer base from bank to dev
+        payDevs{selfAddress!() -> baseTokenId: devFeeAmount; selfAddress!() -> ALPH: devDust}(devFeeAmount) // transfer base from bank to dev
 
         if(creatorFeeNum > 0) {
-            transferTokenFromSelf!(CreatorAddress, if(creatorFeeAmount == 0) ALPH else baseTokenId, if(baseTokenId == ALPH || creatorFeeAmount == 0) creatorFeeAmount + dustAmount!() else creatorFeeAmount) // transfer base from bank to creator
+            if(baseTokenId == ALPH || creatorFeeAmount == 0) {
+                transferTokenFromSelf!(CreatorAddress, ALPH, creatorFeeAmount + dustAmount!()) // transfer base from bank to creator
+            } else {
+                transferTokenFromSelf!(CreatorAddress, baseTokenId, creatorFeeAmount) // transfer base from bank to creator
+                transferTokenFromSelf!(CreatorAddress, ALPH, dustAmount!()) // transfer base from bank to creator
+            }
+        }
+
+        if(baseTokenId == ALPH || expectedUserAmount == 0){
+            transferTokenFromSelf!(caller, ALPH, expectedUserAmount + dustAmount!()) // transfer base from bank to caller
+        } else {
+            transferTokenFromSelf!(caller, baseTokenId, expectedUserAmount) // transfer base from bank to caller
+            transferTokenFromSelf!(caller, ALPH, dustAmount!()) // transfer base from bank to caller
         }
 
         emit Burn(caller, amountHodlTokenToBurn, getPrice())
@@ -153,20 +168,22 @@ Contract PhoenixBank(
         let phoenixFee = 750
 
         let mut brunoAmount = (amountToDistribute * brunoFee) / FeeDenom
-        let mut phoenixAmount = (amountToDistribute * phoenixFee) / FeeDenom
+        let phoenixAmount = if(amountToDistribute == 1) 1 else ((amountToDistribute * phoenixFee) / FeeDenom)
         let totalDistribution = brunoAmount + phoenixAmount
-
-        if(baseTokenId == ALPH || amountToDistribute == 0) {
-            brunoAmount = brunoAmount + dustAmount!()
-            phoenixAmount = phoenixAmount + dustAmount!()
-        }
 
         if(amountToDistribute > totalDistribution) {
             brunoAmount = brunoAmount + (amountToDistribute - totalDistribution) // give any remainder to Bruno
         }
 
-        transferTokenFromSelf!(BrunoAddress, if(amountToDistribute == 0) ALPH else baseTokenId, brunoAmount)
-        transferTokenFromSelf!(PhoenixAddress, if(amountToDistribute == 0) ALPH else baseTokenId, phoenixAmount)
+        if(baseTokenId == ALPH || amountToDistribute == 0) {
+            transferTokenFromSelf!(BrunoAddress, ALPH, brunoAmount + dustAmount!())
+            transferTokenFromSelf!(PhoenixAddress, ALPH, phoenixAmount + dustAmount!())
+        } else {
+            transferTokenFromSelf!(BrunoAddress, baseTokenId, brunoAmount)
+            transferTokenFromSelf!(PhoenixAddress, baseTokenId, phoenixAmount)
+            transferTokenFromSelf!(BrunoAddress, ALPH, dustAmount!())
+            transferTokenFromSelf!(PhoenixAddress, ALPH, dustAmount!())
+        }
     }
 
 
