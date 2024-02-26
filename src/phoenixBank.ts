@@ -8,17 +8,20 @@ export interface MintParam {
   amountHodlTokenDesired: bigint;
   baseTokenApprovalAmount: bigint;
   contractId: string;
+  interfaceFee: bigint;
 }
 
 export interface BurnParam {
   amountHodlTokenToBurn: bigint;
   contractId: string;
+  interfaceFee: bigint;
 }
 
 export interface DepositParam {
   baseTokenId: string;
   amountBaseTokenToDeposit: bigint;
   contractId: string;
+  interfaceFee: bigint;
 }
 
 export class PhoenixBank {
@@ -38,7 +41,8 @@ export class PhoenixBank {
         bank: param.contractId,
         baseTokenId: param.baseTokenId,
         baseTokenApprovalAmount: param.baseTokenApprovalAmount,
-        amountHodlTokenDesired: param.amountHodlTokenDesired
+        amountHodlTokenDesired: param.amountHodlTokenDesired,
+        interfaceFee: param.interfaceFee
       },
       attoAlphAmount: param.baseTokenApprovalAmount
     });
@@ -50,7 +54,8 @@ export class PhoenixBank {
     const result = await PhoenixBurn.execute(signer, {
       initialFields: {
         bank: param.contractId,
-        amountHodlTokenToBurn: param.amountHodlTokenToBurn
+        amountHodlTokenToBurn: param.amountHodlTokenToBurn,
+        interfaceFee: param.interfaceFee
       },
       attoAlphAmount: DUST_AMOUNT + DUST_AMOUNT + DUST_AMOUNT,
       tokens: [
@@ -69,7 +74,8 @@ export class PhoenixBank {
       initialFields: {
         bank: param.contractId,
         baseTokenId: param.baseTokenId,
-        amountBaseTokenToDeposit: param.amountBaseTokenToDeposit
+        amountBaseTokenToDeposit: param.amountBaseTokenToDeposit,
+        interfaceFee: param.interfaceFee
       },
       attoAlphAmount: param.amountBaseTokenToDeposit
     });

@@ -3,7 +3,7 @@ import { PhoenixFactoryInstance } from '../artifacts/ts';
 import { Deployments, loadDeployments } from './deploys';
 import { CreateContract } from './scripts';
 
-export interface CreatContractParam {
+export interface CreateContractParam {
   name: string;
   contractId: string;
   creatorFeeNum: number;
@@ -11,6 +11,7 @@ export interface CreatContractParam {
   totalSupply: bigint;
   symbol: string;
   baseTokenId: string;
+  interfaceFee: bigint;
 }
 
 export class PhoenixFactory {
@@ -24,9 +25,9 @@ export class PhoenixFactory {
     return new PhoenixFactory(loadDeployments(network));
   }
 
-  public async createContract(signer: SignerProvider, param: CreatContractParam): Promise<string> {
+  public async createContract(signer: SignerProvider, param: CreateContractParam): Promise<string> {
     const attoAlphAmount = param.baseTokenId === ALPH_TOKEN_ID ? ONE_ALPH + ONE_ALPH : ONE_ALPH;
-    const decimals = (await signer.nodeProvider.fetchFungibleTokenMetaData(param.baseTokenId))
+    const decimals = (await signer.nodeProvider!.fetchFungibleTokenMetaData(param.baseTokenId))
       .decimals;
     const oneUnit = 10 ** decimals;
     const tokens =
@@ -39,7 +40,8 @@ export class PhoenixFactory {
         name: stringToHex(param.name),
         totalSupply: param.totalSupply,
         bankFeeNum: BigInt(param.bankFeeNum),
-        creatorFeeNum: BigInt(param.creatorFeeNum)
+        creatorFeeNum: BigInt(param.creatorFeeNum),
+        interfaceFee: param.interfaceFee
       },
       attoAlphAmount,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
