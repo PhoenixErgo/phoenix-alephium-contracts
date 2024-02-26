@@ -1,15 +1,15 @@
 {
   "version": "v2.8.6",
-  "name": "Withdraw",
-  "bytecodeTemplate": "01010300000005{1}0d0c{0}0104",
+  "name": "ChangeBank",
+  "bytecodeTemplate": "01010300000005{1}0d0c{0}0102",
   "fieldsSig": {
     "names": [
-      "token",
-      "amount"
+      "factory",
+      "newTemplateId"
     ],
     "types": [
       "ByteVec",
-      "U256"
+      "ByteVec"
     ],
     "isMutable": [
       false,

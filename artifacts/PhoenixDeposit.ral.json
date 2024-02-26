@@ -1,5 +1,5 @@
 {
-  "version": "v2.8.4",
+  "version": "v2.8.6",
   "name": "PhoenixDeposit",
   "bytecodeTemplate": "01010300010013{3}0c334c061500a1576bfca455aaf9035af6ab0deef059b398716c284754f02bc2f2623068ca951700b41600{3}a7b4{1}{2}a3{2}0d0c{0}0110",
   "fieldsSig": {

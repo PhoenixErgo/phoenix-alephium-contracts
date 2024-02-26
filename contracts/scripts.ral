@@ -40,6 +40,34 @@ TxScript CreateContract(factory: PhoenixFactory, baseTokenId: ByteVec, symbol: B
     
 }
 
+TxScript ChangeOwner(factory: PhoenixFactory, newOwner: Address) {
+    factory.setOwner(newOwner)    
+}
+
+TxScript ChangeBank(factory: PhoenixFactory, newTemplateId: ByteVec) {
+    factory.setPhoenixBankTemplateId(newTemplateId)    
+}
+
+TxScript ChangeFee(factory: PhoenixFactory, newFee: U256) {
+    factory.setFee(newFee)    
+}
+
+TxScript ChangeActive(factory: PhoenixFactory, isActive: Bool) {
+    factory.setActive(isActive)    
+}
+
+TxScript ChangeMaxDecimals(factory: PhoenixFactory, newMaxDecimals: U256) {
+    factory.setMaxDecimals(newMaxDecimals)    
+}
+
+TxScript ChangeMaxBankFeeNum(factory: PhoenixFactory, newMaxBankFeeNum: U256) {
+    factory.setMaxBankFeeNum(newMaxBankFeeNum)    
+}
+
+TxScript ChangeMaxCreatorFeeNum(factory: PhoenixFactory, newMaxCreatorFeeNum: U256) {
+    factory.setMaxCreatorFeeNum(newMaxCreatorFeeNum)    
+}
+
 TxScript Withdraw(token: USDToken, amount: U256) {
     token.withdraw(amount)
 }
