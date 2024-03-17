@@ -1,6 +1,6 @@
 TxScript PhoenixMint(bank: PhoenixBank, baseTokenId: ByteVec, amountHodlTokenDesired: U256, baseTokenApprovalAmount: U256, interfaceFee: U256) {
     if(interfaceFee > 0){
-        let recipient = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
+        let recipient = @1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ
         transferToken!{callerAddress!() -> ALPH: interfaceFee}(callerAddress!(), recipient, ALPH, interfaceFee)
     }
     bank.mint{callerAddress!() -> baseTokenId: baseTokenApprovalAmount}(amountHodlTokenDesired)
@@ -8,7 +8,7 @@ TxScript PhoenixMint(bank: PhoenixBank, baseTokenId: ByteVec, amountHodlTokenDes
 
 TxScript PhoenixBurn(bank: PhoenixBank, amountHodlTokenToBurn: U256, interfaceFee: U256) {
     if(interfaceFee > 0){
-        let recipient = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
+        let recipient = @1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ
         transferToken!{callerAddress!() -> ALPH: interfaceFee}(callerAddress!(), recipient, ALPH, interfaceFee)
     }
     bank.burn{callerAddress!() -> tokenId!(bank): amountHodlTokenToBurn; callerAddress!() -> ALPH: dustAmount!() + dustAmount!() + dustAmount!() + dustAmount!()}(amountHodlTokenToBurn)
@@ -16,7 +16,7 @@ TxScript PhoenixBurn(bank: PhoenixBank, amountHodlTokenToBurn: U256, interfaceFe
 
 TxScript PhoenixDeposit(bank: PhoenixBank, baseTokenId: ByteVec, amountBaseTokenToDeposit: U256, interfaceFee: U256) {
     if(interfaceFee > 0){
-        let recipient = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
+        let recipient = @1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ
         transferToken!{callerAddress!() -> ALPH: interfaceFee}(callerAddress!(), recipient, ALPH, interfaceFee)
     }
     bank.deposit{callerAddress!() -> baseTokenId: amountBaseTokenToDeposit}(amountBaseTokenToDeposit)
@@ -24,7 +24,7 @@ TxScript PhoenixDeposit(bank: PhoenixBank, baseTokenId: ByteVec, amountBaseToken
 
 TxScript CreateContract(factory: PhoenixFactory, baseTokenId: ByteVec, symbol: ByteVec, name: ByteVec, totalSupply: U256, bankFeeNum: U256, creatorFeeNum: U256, interfaceFee: U256) {
     if(interfaceFee > 0){
-        let recipient = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
+        let recipient = @1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ
         transferToken!{callerAddress!() -> ALPH: interfaceFee}(callerAddress!(), recipient, ALPH, interfaceFee)
     }
     let fee = factory.getFee()
@@ -68,6 +68,10 @@ TxScript ChangeMaxCreatorFeeNum(factory: PhoenixFactory, newMaxCreatorFeeNum: U2
     factory.setMaxCreatorFeeNum(newMaxCreatorFeeNum)    
 }
 
-TxScript Withdraw(token: USDToken, amount: U256) {
-    token.withdraw(amount)
+TxScript ChangeMinValueDivisor(factory: PhoenixFactory, newMinValueDivisor: U256) {
+    factory.setMinValueDivisor(newMinValueDivisor)    
+}
+
+TxScript ChangeContractCreationALPH(factory: PhoenixFactory, newContractCreationALPH: U256) {
+    factory.setContractCreationALPH(newContractCreationALPH)    
 }

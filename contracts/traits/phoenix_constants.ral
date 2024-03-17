@@ -1,14 +1,12 @@
 Abstract Contract PhoenixConstants(){
     const FeeDenom = 1000
 
-    const PhoenixAddress = @1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe
-    const BrunoAddress = @13JRgHCUFnJcHXAx52QvSQ1MgghJiyyAMGMvLT9t3NaRc
-    const CreatorAddress = @14pjHtCtxQ5UQfZJ8vQiyQwXvgRg9rnUipdL9JSjCQfm8
+    const PhoenixAddress = @1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ
+    const BrunoAddress = @13UsdFLqmkN9SASBh7MLL6QEhjsfGp2CKmJZrERyMcVAo
 
     enum ErrorCodes {
         ZeroCirculation = 0
         ZeroReserve = 1
-        InvalidCaller = 2
-        DivideByZero = 3
+        DivideByZero = 2
     }
 }

@@ -1,4 +1,5 @@
 Contract PhoenixBank(
+    creatorAddress: Address,
     baseTokenId: ByteVec,
     symbol: ByteVec,
     name: ByteVec,
@@ -11,6 +12,10 @@ Contract PhoenixBank(
     mut reserveIn: U256, // should be one unit of token so for ALPH, 10 ** 18
     mut hodlTokenIn: U256 // hodlToken balance
 ) extends PhoenixConstants() implements IPhoenixHodl {
+
+    pub fn getCreatorAddress() -> Address {
+        return creatorAddress
+    }
 
     pub fn getbaseTokenId() -> ByteVec {
         return baseTokenId
@@ -63,11 +68,15 @@ Contract PhoenixBank(
     pub fn getCirculatingSupply() -> U256 {
         let circulatingSupply = totalTokenSupply - hodlTokenIn
         assert!(circulatingSupply >= 1, ErrorCodes.ZeroCirculation) // prevent division by zero
-        return totalTokenSupply - hodlTokenIn
+        return circulatingSupply
     }
 
-    pub fn getPrice() -> U256 {
-        return reserveIn / getCirculatingSupply()
+    pub fn getPrice(isMint: Bool) -> U256 {
+        let priceNumerator = reserveIn
+        let priceDenominator = getCirculatingSupply()
+        let oneUnit = 10 ** decimals
+
+        return if(isMint) divUp((oneUnit * priceNumerator), priceDenominator) else (oneUnit * priceNumerator) / priceDenominator
     }
 
     @using(preapprovedAssets = true, assetsInContract = true, updateFields = true, checkExternalCaller = false)
@@ -133,10 +142,10 @@ Contract PhoenixBank(
 
         if(creatorFeeNum > 0) {
             if(baseTokenId == ALPH || creatorFeeAmount == 0) {
-                transferTokenFromSelf!(CreatorAddress, ALPH, creatorFeeAmount + dustAmount!()) // transfer base from bank to creator
+                transferTokenFromSelf!(creatorAddress, ALPH, creatorFeeAmount + dustAmount!()) // transfer base from bank to creator
             } else {
-                transferTokenFromSelf!(CreatorAddress, baseTokenId, creatorFeeAmount) // transfer base from bank to creator
-                transferTokenFromSelf!(CreatorAddress, ALPH, dustAmount!()) // transfer base from bank to creator
+                transferTokenFromSelf!(creatorAddress, baseTokenId, creatorFeeAmount) // transfer base from bank to creator
+                transferTokenFromSelf!(creatorAddress, ALPH, dustAmount!()) // transfer dust from bank to creator
             }
         }
 
@@ -144,10 +153,10 @@ Contract PhoenixBank(
             transferTokenFromSelf!(caller, ALPH, expectedUserAmount + dustAmount!()) // transfer base from bank to caller
         } else {
             transferTokenFromSelf!(caller, baseTokenId, expectedUserAmount) // transfer base from bank to caller
-            transferTokenFromSelf!(caller, ALPH, dustAmount!()) // transfer base from bank to caller
+            transferTokenFromSelf!(caller, ALPH, dustAmount!()) // transfer dust from bank to caller
         }
 
-        emit Burn(caller, amountHodlTokenToBurn, getPrice())
+        emit Burn(caller, amountHodlTokenToBurn, getPrice(false))
     }
 
     @using(preapprovedAssets = true, assetsInContract = true, updateFields = true, checkExternalCaller = false)
@@ -158,12 +167,11 @@ Contract PhoenixBank(
         reserveIn = reserveIn + amountTokenToDeposit // mutate base balance
         transferTokenToSelf!(caller, baseTokenId, amountTokenToDeposit) // transfer base from caller to bank
 
-        emit Deposit(caller, amountTokenToDeposit, getPrice())
+        emit Deposit(caller, amountTokenToDeposit, getPrice(true))
     }
 
-    @using(preapprovedAssets = true, assetsInContract = false, updateFields = false, checkExternalCaller = false)
+    @using(preapprovedAssets = true, assetsInContract = false, updateFields = false)
     fn payDevs(amountToDistribute: U256) -> () {
-        checkCaller!(callerAddress!() == selfAddress!(), ErrorCodes.InvalidCaller) // must be called from within the contract
         let brunoFee = 250
         let phoenixFee = 750
 

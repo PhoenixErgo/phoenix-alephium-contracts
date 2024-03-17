@@ -3,9 +3,9 @@ Abstract Contract PhoenixFactoryConstants(){
     event Creation(creator: Address, contractId: ByteVec, baseTokenId: ByteVec, bankFeeNum: U256)
 
     enum ErrorCodes {
-        NotActive = 1
-        MaxDecimalsExceeded = 2
-        MaxBankFeeNumExceeded = 3
-        MaxCreatorFeeNumExceeded = 4
+        NotActive = 0
+        MaxDecimalsExceeded = 1
+        MaxBankFeeNumExceeded = 2
+        MaxCreatorFeeNumExceeded = 3
     }
 }
