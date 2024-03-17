@@ -1,18 +1,20 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { testAddress } from '@alephium/web3-test';
 import { prepareForTests } from './utils';
 import {
-  ALPH_TOKEN_ID,
-  ONE_ALPH,
-  stringToHex,
   addressFromContractId,
-  DUST_AMOUNT
+  ALPH_TOKEN_ID,
+  DUST_AMOUNT,
+  ONE_ALPH,
+  stringToHex
 } from '@alephium/web3';
 import { PhoenixBank } from '../artifacts/ts';
 
+const NUM_LOOPS = 10;
+
 describe('PhoenixBank', () => {
-  const PhoenixAddress = '1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe';
-  const BrunoAddress = '13JRgHCUFnJcHXAx52QvSQ1MgghJiyyAMGMvLT9t3NaRc';
+  const PhoenixAddress = '1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ';
+  const BrunoAddress = '13UsdFLqmkN9SASBh7MLL6QEhjsfGp2CKmJZrERyMcVAo';
   const CreatorAddress = '14pjHtCtxQ5UQfZJ8vQiyQwXvgRg9rnUipdL9JSjCQfm8';
 
   const tokenId = '1a281053ba8601a658368594da034c2e99a0fb951b86498d05e76aedfe666800';
@@ -36,6 +38,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: ALPH_TOKEN_ID,
           symbol: stringToHex('HALPH'),
           name: stringToHex('HodlAlph'),
@@ -60,7 +63,14 @@ describe('PhoenixBank', () => {
       const reserveIn = event.contracts[0].fields.reserveIn;
       const hodlTokenIn = event.contracts[0].fields.hodlTokenIn;
 
-      const price = await PhoenixBank.tests.getPrice(params);
+      const price = await PhoenixBank.tests.getPrice({
+        ...event,
+        testArgs: {
+          isMint: true
+        },
+        initialFields: event.contracts[0].fields,
+        initialAsset: event.contracts[0].asset
+      });
 
       expect(reserveIn.toString(), 'reserve does not match manual value').toBe(
         '2000000000000000000'
@@ -71,7 +81,7 @@ describe('PhoenixBank', () => {
       expect(
         price.returns.toString(),
         'price does not correspond to manually calculated value'
-      ).toBe('1');
+      ).toBe('1000000000000000000');
       expect(userOutput.length, 'user outputs do not match').toBe(2);
       expect(bankOutput.length, 'bank outputs do not match').toBe(1);
       expect(userOutput[0].tokens!.length, 'user token outputs do not match').toBe(1);
@@ -106,6 +116,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: baseTokenId,
           symbol: stringToHex('HToken'),
           name: stringToHex('HodlToken'),
@@ -135,7 +146,14 @@ describe('PhoenixBank', () => {
       const reserveIn = event.contracts[0].fields.reserveIn;
       const hodlTokenIn = event.contracts[0].fields.hodlTokenIn;
 
-      const price = await PhoenixBank.tests.getPrice(params);
+      const price = await PhoenixBank.tests.getPrice({
+        ...event,
+        testArgs: {
+          isMint: true
+        },
+        initialFields: event.contracts[0].fields,
+        initialAsset: event.contracts[0].asset
+      });
 
       expect(reserveIn.toString(), 'reserve does not match manual value').toBe('1001');
       expect(hodlTokenIn.toString(), 'hodlTokenIn does not match manual value').toBe('999998999');
@@ -174,6 +192,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: ALPH_TOKEN_ID,
           symbol: stringToHex('HALPH'),
           name: stringToHex('HodlAlph'),
@@ -198,7 +217,14 @@ describe('PhoenixBank', () => {
       const reserveIn = event.contracts[0].fields.reserveIn;
       const hodlTokenIn = event.contracts[0].fields.hodlTokenIn;
 
-      const price = await PhoenixBank.tests.getPrice(params);
+      const price = await PhoenixBank.tests.getPrice({
+        ...event,
+        testArgs: {
+          isMint: true
+        },
+        initialFields: event.contracts[0].fields,
+        initialAsset: event.contracts[0].asset
+      });
 
       expect(reserveIn.toString(), 'reserve does not match manual value').toBe(
         '1000000000000000001'
@@ -209,7 +235,7 @@ describe('PhoenixBank', () => {
       expect(
         price.returns.toString(),
         'price does not correspond to manually calculated value'
-      ).toBe('1');
+      ).toBe('1000000000000000000');
       expect(userOutput.length, 'user outputs do not match').toBe(2);
       expect(bankOutput.length, 'bank outputs do not match').toBe(1);
       expect(userOutput[0].tokens!.length, 'user token outputs do not match').toBe(1);
@@ -239,6 +265,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: ALPH_TOKEN_ID,
           symbol: stringToHex('HALPH'),
           name: stringToHex('HodlAlph'),
@@ -310,6 +337,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: baseTokenId,
           symbol: stringToHex('HToken'),
           name: stringToHex('HodlToken'),
@@ -397,6 +425,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: ALPH_TOKEN_ID,
           symbol: stringToHex('HALPH'),
           name: stringToHex('HodlAlph'),
@@ -478,6 +507,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: baseTokenId,
           symbol: stringToHex('HToken'),
           name: stringToHex('HodlToken'),
@@ -551,6 +581,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: ALPH_TOKEN_ID,
           symbol: stringToHex('HALPH'),
           name: stringToHex('HodlAlph'),
@@ -632,6 +663,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: baseTokenId,
           symbol: stringToHex('HToken'),
           name: stringToHex('HodlToken'),
@@ -696,6 +728,772 @@ describe('PhoenixBank', () => {
     });
   });
 
+  describe('mint and burn', () => {
+    it('minting and immediately burning should work', async () => {
+      const params = {
+        address: bankContractAddress,
+        initialAsset: {
+          alphAmount: ONE_ALPH + ONE_ALPH,
+          tokens: [
+            {
+              id: tokenId,
+              amount: ONE_ALPH * BigInt(10) ** BigInt(9) - ONE_ALPH
+            }
+          ]
+        },
+        initialFields: {
+          creatorAddress: CreatorAddress,
+          baseTokenId: ALPH_TOKEN_ID,
+          symbol: stringToHex('HALPH'),
+          name: stringToHex('HodlAlph'),
+          bankFeeNum: BigInt(30),
+          creatorFeeNum: BigInt(10),
+          decimals: BigInt(18),
+          totalTokenSupply: ONE_ALPH * BigInt(10) ** BigInt(9),
+          minBankValue: ONE_ALPH, // 10 ** 18
+          reserveIn: ONE_ALPH, // base balance
+          hodlTokenIn: ONE_ALPH * BigInt(10) ** BigInt(9) - ONE_ALPH
+        },
+        testArgs: {
+          amountHodlTokenDesired: ONE_ALPH
+        },
+        inputAssets: [{ address: testAddress, asset: { alphAmount: ONE_ALPH * 20n } }]
+      };
+      const mintEvent = await PhoenixBank.tests.mint(params);
+
+      const userOutput = mintEvent.txOutputs.filter((output) => output.address === testAddress);
+      const bankOutput = mintEvent.txOutputs.filter(
+        (output) => output.address === bankContractAddress
+      );
+
+      const reserveIn = mintEvent.contracts[0].fields.reserveIn;
+      const hodlTokenIn = mintEvent.contracts[0].fields.hodlTokenIn;
+
+      const price = await PhoenixBank.tests.getPrice({
+        ...mintEvent,
+        testArgs: {
+          isMint: true
+        },
+        initialFields: mintEvent.contracts[0].fields,
+        initialAsset: mintEvent.contracts[0].asset
+      });
+
+      expect(reserveIn.toString(), 'reserve does not match manual value').toBe(
+        '2000000000000000000'
+      );
+      expect(hodlTokenIn.toString(), 'hodlTokenIn does not match manual value').toBe(
+        '999999998000000000000000000'
+      );
+      expect(
+        price.returns.toString(),
+        'price does not correspond to manually calculated value'
+      ).toBe('1000000000000000000');
+      expect(userOutput.length, 'user outputs do not match').toBe(2);
+      expect(bankOutput.length, 'bank outputs do not match').toBe(1);
+      expect(userOutput[0].tokens!.length, 'user token outputs do not match').toBe(1);
+      expect(
+        userOutput[0].tokens![0].amount.toString(),
+        'user token amount does not match manual value'
+      ).toBe('1000000000000000000');
+      expect(bankOutput[0].tokens!.length, 'bank token outputs do not match').toBe(1);
+      expect(
+        bankOutput[0].tokens![0].amount.toString(),
+        'bank token amount does not match manual value'
+      ).toBe('999999998000000000000000000');
+
+      const burnEvent = await PhoenixBank.tests.burn({
+        ...mintEvent,
+        address: bankContractAddress,
+        testArgs: {
+          amountHodlTokenToBurn: ONE_ALPH
+        },
+        inputAssets: [
+          {
+            address: testAddress,
+            asset: {
+              alphAmount: ONE_ALPH,
+              tokens: [{ id: tokenId, amount: ONE_ALPH }]
+            }
+          }
+        ],
+        initialFields: mintEvent.contracts[0].fields,
+        initialAsset: mintEvent.contracts[0].asset
+      });
+
+      const phoenixFeeOutput = burnEvent.txOutputs.filter(
+        (output) => output.address === PhoenixAddress
+      );
+      const brunoFeeOutput = burnEvent.txOutputs.filter(
+        (output) => output.address === BrunoAddress
+      );
+      const creatorFeeOutput = burnEvent.txOutputs.filter(
+        (output) => output.address === CreatorAddress
+      );
+      const userBurnOutput = burnEvent.txOutputs.filter((output) => output.address === testAddress);
+      const bankBurnOutput = burnEvent.txOutputs.filter(
+        (output) => output.address === bankContractAddress
+      );
+
+      const burnReserveIn = burnEvent.contracts[0].fields.reserveIn;
+      const burnHodlTokenIn = burnEvent.contracts[0].fields.hodlTokenIn;
+
+      expect(burnReserveIn.toString(), 'reserveIn does not match manual value').toBe(
+        '1030000000000000000'
+      );
+      expect(burnHodlTokenIn.toString(), 'hodlTokenIn does not match manual value').toBe(
+        '999999999000000000000000000'
+      );
+      expect(
+        BigInt(burnReserveIn.toString()) > BigInt(reserveIn.toString()),
+        'reserve does not increase'
+      );
+      expect(phoenixFeeOutput.length).eq(1);
+      expect(phoenixFeeOutput[0].alphAmount.toString()).toBe('3250000000000000');
+      expect(brunoFeeOutput.length).eq(1);
+      expect(brunoFeeOutput[0].alphAmount.toString()).toBe('1750000000000000');
+      expect(creatorFeeOutput.length).eq(1);
+      expect(creatorFeeOutput[0].alphAmount.toString()).toBe('11000000000000000');
+      expect(userBurnOutput[0].alphAmount.toString()).toBe('1891500000000000000');
+      expect(bankBurnOutput.length).eq(1);
+      expect(bankBurnOutput[0].alphAmount.toString()).toBe('2030000000000000000');
+    });
+
+    it('minting and immediately burning should work for native token', async () => {
+      // decimals 0
+      // max token supply = 1 billion
+
+      const params = {
+        address: bankContractAddress,
+        initialAsset: {
+          alphAmount: ONE_ALPH,
+          tokens: [
+            {
+              id: baseTokenId,
+              amount: BigInt(1)
+            },
+            {
+              id: hodlTokenId,
+              amount: BigInt(10) ** BigInt(9) - BigInt(1)
+            }
+          ]
+        },
+        initialFields: {
+          creatorAddress: CreatorAddress,
+          baseTokenId: baseTokenId,
+          symbol: stringToHex('HToken'),
+          name: stringToHex('HodlToken'),
+          bankFeeNum: BigInt(30),
+          creatorFeeNum: BigInt(10),
+          decimals: BigInt(0),
+          totalTokenSupply: BigInt(10) ** BigInt(9),
+          minBankValue: BigInt(1),
+          reserveIn: BigInt(1), // base balance
+          hodlTokenIn: BigInt(10) ** BigInt(9) - BigInt(1)
+        },
+        testArgs: {
+          amountHodlTokenDesired: BigInt(1000)
+        },
+        inputAssets: [
+          {
+            address: testAddress,
+            asset: { alphAmount: ONE_ALPH, tokens: [{ id: baseTokenId, amount: BigInt(1000) }] }
+          }
+        ]
+      };
+      const mintEvent = await PhoenixBank.tests.mint(params);
+
+      const userOutput = mintEvent.txOutputs.filter((output) => output.address === testAddress);
+      const bankOutput = mintEvent.txOutputs.filter(
+        (output) => output.address === bankContractAddress
+      );
+
+      const reserveIn = mintEvent.contracts[0].fields.reserveIn;
+      const hodlTokenIn = mintEvent.contracts[0].fields.hodlTokenIn;
+
+      const price = await PhoenixBank.tests.getPrice({
+        ...mintEvent,
+        testArgs: {
+          isMint: true
+        },
+        initialFields: mintEvent.contracts[0].fields,
+        initialAsset: mintEvent.contracts[0].asset
+      });
+
+      expect(reserveIn.toString(), 'reserve does not match manual value').toBe('1001');
+      expect(hodlTokenIn.toString(), 'hodlTokenIn does not match manual value').toBe('999998999');
+      expect(
+        price.returns.toString(),
+        'price does not correspond to manually calculated value'
+      ).toBe('1');
+      expect(userOutput.length, 'user outputs do not match').toBe(2);
+      expect(bankOutput.length, 'bank outputs do not match').toBe(1);
+      expect(userOutput[0].tokens!.length, 'user token outputs do not match').toBe(1);
+      expect(
+        userOutput[0].tokens![0].amount.toString(),
+        'user token amount does not match manual value'
+      ).toBe('1000');
+      expect(bankOutput[0].tokens!.length, 'bank token outputs do not match').toBe(2);
+      expect(
+        bankOutput[0].tokens![0].amount.toString(),
+        'bank baseToken token amount does not match manual value'
+      ).toBe('1001');
+      expect(
+        bankOutput[0].tokens![1].amount.toString(),
+        'bank hodlToken amount does not match manual value'
+      ).toBe('999998999');
+
+      const burnEvent = await PhoenixBank.tests.burn({
+        ...mintEvent,
+        address: bankContractAddress,
+        testArgs: {
+          amountHodlTokenToBurn: BigInt(1)
+        },
+        inputAssets: [
+          {
+            address: testAddress,
+            asset: { alphAmount: ONE_ALPH, tokens: [{ id: hodlTokenId, amount: BigInt(1) }] }
+          }
+        ],
+        initialFields: mintEvent.contracts[0].fields,
+        initialAsset: mintEvent.contracts[0].asset
+      });
+
+      const phoenixFeeOutput = burnEvent.txOutputs.filter(
+        (output) => output.address === PhoenixAddress
+      );
+      const brunoFeeOutput = burnEvent.txOutputs.filter(
+        (output) => output.address === BrunoAddress
+      );
+      const creatorFeeOutput = burnEvent.txOutputs.filter(
+        (output) => output.address === CreatorAddress
+      );
+      const userBurnOutput = burnEvent.txOutputs.filter((output) => output.address === testAddress);
+      const bankBurnOutput = burnEvent.txOutputs.filter(
+        (output) => output.address === bankContractAddress
+      );
+
+      const burnReserveIn = burnEvent.contracts[0].fields.reserveIn;
+      const burnHodlTokenIn = burnEvent.contracts[0].fields.hodlTokenIn;
+
+      expect(burnReserveIn.toString(), 'reserveIn does not match manual value').toBe('1001');
+      expect(burnHodlTokenIn.toString(), 'hodlTokenIn does not match manual value').toBe(
+        '999999000'
+      );
+      expect(phoenixFeeOutput.length, 'only one phoenix output').eq(1);
+      expect(phoenixFeeOutput[0].alphAmount.toString(), 'phoenix gets dust').toBe(
+        '1000000000000000'
+      );
+      expect(phoenixFeeOutput[0].tokens!.length, 'phoenix fee should contain no tokens').toBe(0);
+      expect(brunoFeeOutput.length, 'only one bruno output').eq(1);
+      expect(brunoFeeOutput[0].alphAmount.toString(), 'bruno gets dust').toBe('1000000000000000');
+      expect(brunoFeeOutput[0].tokens!.length, 'bruno fee should contain no tokens').toBe(0);
+      expect(creatorFeeOutput.length, 'only one creator output').eq(1);
+      expect(creatorFeeOutput[0].alphAmount.toString(), 'creator gets dust').toBe(
+        '1000000000000000'
+      );
+      expect(creatorFeeOutput[0].tokens!.length, 'creator fee should contain no tokens').toBe(0);
+      expect(userBurnOutput[0].tokens!.length, 'user output should contain no tokens').toBe(0);
+      expect(bankBurnOutput.length, 'only one bank output').eq(1);
+      expect(bankBurnOutput[0].alphAmount.toString(), 'bank ALPH amount should stay constant').toBe(
+        '1000000000000000000'
+      );
+      expect(bankBurnOutput[0].tokens!.length, 'bank should have two types of token').toBe(2);
+      expect(
+        bankBurnOutput[0].tokens![0].amount.toString(),
+        'bank baseToken value should match manually calculated value'
+      ).toBe('1001');
+      expect(
+        bankBurnOutput[0].tokens![1].amount.toString(),
+        'bank hodlToken value should match manually calculated value'
+      ).toBe('999999000');
+    });
+
+    function divUp(dividend: bigint, divisor: bigint): bigint {
+      if (divisor === BigInt(0)) {
+        return BigInt(-1);
+      } else {
+        return (dividend + (divisor - BigInt(1))) / divisor;
+      }
+    }
+
+    it('reserve should increase for any arbitrary sequence of minting and burning actions', async () => {
+      const params = {
+        address: bankContractAddress,
+        initialAsset: {
+          alphAmount: ONE_ALPH + ONE_ALPH,
+          tokens: [
+            {
+              id: tokenId,
+              amount: ONE_ALPH * BigInt(10) ** BigInt(9) - ONE_ALPH
+            }
+          ]
+        },
+        initialFields: {
+          creatorAddress: CreatorAddress,
+          baseTokenId: ALPH_TOKEN_ID,
+          symbol: stringToHex('HALPH'),
+          name: stringToHex('HodlAlph'),
+          bankFeeNum: BigInt(100),
+          creatorFeeNum: BigInt(100),
+          decimals: BigInt(18),
+          totalTokenSupply: ONE_ALPH * BigInt(10) ** BigInt(9),
+          minBankValue: ONE_ALPH, // 10 ** 18
+          reserveIn: ONE_ALPH, // base balance
+          hodlTokenIn: ONE_ALPH * BigInt(10) ** BigInt(9) - ONE_ALPH
+        },
+        testArgs: {
+          amountHodlTokenDesired: ONE_ALPH
+        },
+        inputAssets: [{ address: testAddress, asset: { alphAmount: ONE_ALPH * 20n } }]
+      };
+      let prevEvent = await PhoenixBank.tests.mint(params);
+
+      for (let i = 0; i < NUM_LOOPS; i++) {
+        const reserveBeforeMint = i === 0 ? ONE_ALPH : prevEvent.contracts[0].fields.reserveIn;
+        const circulatingSupplyBeforeMint = await PhoenixBank.tests.getCirculatingSupply({
+          ...prevEvent,
+          initialFields: prevEvent.contracts[0].fields,
+          initialAsset: prevEvent.contracts[0].asset
+        });
+        const mintAmount = BigInt(Math.floor(Math.random() * 100000) + 1) * ONE_ALPH;
+        const mintEvent =
+          i === 0
+            ? prevEvent
+            : await PhoenixBank.tests.mint({
+                ...prevEvent,
+                address: bankContractAddress,
+                testArgs: {
+                  amountHodlTokenDesired: mintAmount
+                },
+                inputAssets: [
+                  {
+                    address: testAddress,
+                    asset: {
+                      alphAmount:
+                        divUp(
+                          mintAmount * BigInt(reserveBeforeMint.toString()),
+                          circulatingSupplyBeforeMint.returns
+                        ) + ONE_ALPH
+                    }
+                  }
+                ],
+                initialFields: prevEvent.contracts[0].fields,
+                initialAsset: prevEvent.contracts[0].asset
+              });
+
+        const burnAmount = mintEvent.txOutputs
+          .filter((output) => output.address === testAddress)[0]
+          .tokens.filter((t) => t.id === tokenId)[0].amount;
+
+        const burnEvent = await PhoenixBank.tests.burn({
+          ...mintEvent,
+          address: bankContractAddress,
+          testArgs: {
+            amountHodlTokenToBurn: burnAmount
+          },
+          inputAssets: [
+            {
+              address: testAddress,
+              asset: {
+                alphAmount: ONE_ALPH,
+                tokens: [{ id: tokenId, amount: burnAmount }]
+              }
+            }
+          ],
+          initialFields: mintEvent.contracts[0].fields,
+          initialAsset: mintEvent.contracts[0].asset
+        });
+
+        const burnReserveIn = burnEvent.contracts[0].fields.reserveIn;
+        expect(BigInt(burnReserveIn.toString())).toBeGreaterThan(
+          BigInt(reserveBeforeMint.toString())
+        );
+
+        prevEvent = burnEvent;
+      }
+    }, 30000);
+
+    it('reserve should increase for any arbitrary sequence of minting and burning actions for native token', async () => {
+      const params = {
+        address: bankContractAddress,
+        initialAsset: {
+          alphAmount: ONE_ALPH,
+          tokens: [
+            {
+              id: baseTokenId,
+              amount: BigInt(1)
+            },
+            {
+              id: hodlTokenId,
+              amount: BigInt(10) ** BigInt(9) - BigInt(1)
+            }
+          ]
+        },
+        initialFields: {
+          creatorAddress: CreatorAddress,
+          baseTokenId: baseTokenId,
+          symbol: stringToHex('HToken'),
+          name: stringToHex('HodlToken'),
+          bankFeeNum: BigInt(30),
+          creatorFeeNum: BigInt(10),
+          decimals: BigInt(0),
+          totalTokenSupply: BigInt(10) ** BigInt(9),
+          minBankValue: BigInt(1),
+          reserveIn: BigInt(1), // base balance
+          hodlTokenIn: BigInt(10) ** BigInt(9) - BigInt(1)
+        },
+        testArgs: {
+          amountHodlTokenDesired: BigInt(1000)
+        },
+        inputAssets: [
+          {
+            address: testAddress,
+            asset: { alphAmount: ONE_ALPH, tokens: [{ id: baseTokenId, amount: BigInt(1000) }] }
+          }
+        ]
+      };
+
+      let prevEvent = await PhoenixBank.tests.mint(params);
+
+      for (let i = 0; i < NUM_LOOPS; i++) {
+        const reserveBeforeMint = i === 0 ? BigInt(1) : prevEvent.contracts[0].fields.reserveIn;
+        const circulatingSupplyBeforeMint = await PhoenixBank.tests.getCirculatingSupply({
+          ...prevEvent,
+          initialFields: prevEvent.contracts[0].fields,
+          initialAsset: prevEvent.contracts[0].asset
+        });
+        const mintAmount = BigInt(Math.floor(Math.random() * 100000) + 1);
+        const mintEvent =
+          i === 0
+            ? prevEvent
+            : await PhoenixBank.tests.mint({
+                ...prevEvent,
+                address: bankContractAddress,
+                testArgs: {
+                  amountHodlTokenDesired: mintAmount
+                },
+                inputAssets: [
+                  {
+                    address: testAddress,
+                    asset: {
+                      alphAmount: ONE_ALPH,
+                      tokens: [
+                        {
+                          id: baseTokenId,
+                          amount: divUp(
+                            mintAmount * BigInt(reserveBeforeMint.toString()),
+                            circulatingSupplyBeforeMint.returns
+                          )
+                        }
+                      ]
+                    }
+                  }
+                ],
+                initialFields: prevEvent.contracts[0].fields,
+                initialAsset: prevEvent.contracts[0].asset
+              });
+
+        const burnAmount = mintEvent.txOutputs
+          .filter((output) => output.address === testAddress)[0]
+          .tokens.filter((t) => t.id === tokenId)[0].amount;
+
+        const burnEvent = await PhoenixBank.tests.burn({
+          ...mintEvent,
+          address: bankContractAddress,
+          testArgs: {
+            amountHodlTokenToBurn: burnAmount
+          },
+          inputAssets: [
+            {
+              address: testAddress,
+              asset: {
+                alphAmount: ONE_ALPH,
+                tokens: [{ id: tokenId, amount: burnAmount }]
+              }
+            }
+          ],
+          initialFields: mintEvent.contracts[0].fields,
+          initialAsset: mintEvent.contracts[0].asset
+        });
+
+        const burnReserveIn = burnEvent.contracts[0].fields.reserveIn;
+        expect(BigInt(burnReserveIn.toString())).toBeGreaterThan(
+          BigInt(reserveBeforeMint.toString())
+        );
+
+        prevEvent = burnEvent;
+      }
+    }, 30000);
+
+    it('price should never decrease for any arbitrary sequence of minting and burning actions', async () => {
+      const params = {
+        address: bankContractAddress,
+        initialAsset: {
+          alphAmount: ONE_ALPH + ONE_ALPH,
+          tokens: [
+            {
+              id: tokenId,
+              amount: ONE_ALPH * BigInt(10) ** BigInt(9) - ONE_ALPH
+            }
+          ]
+        },
+        initialFields: {
+          creatorAddress: CreatorAddress,
+          baseTokenId: ALPH_TOKEN_ID,
+          symbol: stringToHex('HALPH'),
+          name: stringToHex('HodlAlph'),
+          bankFeeNum: BigInt(30),
+          creatorFeeNum: BigInt(10),
+          decimals: BigInt(18),
+          totalTokenSupply: ONE_ALPH * BigInt(10) ** BigInt(9),
+          minBankValue: ONE_ALPH, // 10 ** 18
+          reserveIn: ONE_ALPH, // base balance
+          hodlTokenIn: ONE_ALPH * BigInt(10) ** BigInt(9) - ONE_ALPH
+        },
+        testArgs: {
+          amountHodlTokenDesired: ONE_ALPH
+        },
+        inputAssets: [{ address: testAddress, asset: { alphAmount: ONE_ALPH * 20n } }]
+      };
+      let prevEvent = await PhoenixBank.tests.mint(params);
+
+      for (let i = 0; i < NUM_LOOPS; i++) {
+        const reserveBeforeMint = i === 0 ? ONE_ALPH : prevEvent.contracts[0].fields.reserveIn;
+        const priceBeforeMint = await PhoenixBank.tests.getPrice({
+          ...prevEvent,
+          testArgs: {
+            isMint: true
+          },
+          initialFields: prevEvent.contracts[0].fields,
+          initialAsset: prevEvent.contracts[0].asset
+        });
+        const circulatingSupplyBeforeMint = await PhoenixBank.tests.getCirculatingSupply({
+          ...prevEvent,
+          initialFields: prevEvent.contracts[0].fields,
+          initialAsset: prevEvent.contracts[0].asset
+        });
+        const mintAmount = BigInt(Math.floor(Math.random() * 100000) + 1) * ONE_ALPH;
+        const mintEvent =
+          i === 0
+            ? prevEvent
+            : await PhoenixBank.tests.mint({
+                ...prevEvent,
+                address: bankContractAddress,
+                testArgs: {
+                  amountHodlTokenDesired: mintAmount
+                },
+                inputAssets: [
+                  {
+                    address: testAddress,
+                    asset: {
+                      alphAmount:
+                        divUp(
+                          mintAmount * BigInt(reserveBeforeMint.toString()),
+                          circulatingSupplyBeforeMint.returns
+                        ) + ONE_ALPH
+                    }
+                  }
+                ],
+                initialFields: prevEvent.contracts[0].fields,
+                initialAsset: prevEvent.contracts[0].asset
+              });
+
+        const priceAfterMint = await PhoenixBank.tests.getPrice({
+          ...mintEvent,
+          testArgs: {
+            isMint: true
+          },
+          initialFields: mintEvent.contracts[0].fields,
+          initialAsset: mintEvent.contracts[0].asset
+        });
+
+        expect(priceBeforeMint.returns.toString()).eq(
+          priceAfterMint.returns.toString(),
+          'price should remain same after mint'
+        );
+
+        const burnAmount = mintEvent.txOutputs
+          .filter((output) => output.address === testAddress)[0]
+          .tokens.filter((t) => t.id === tokenId)[0].amount;
+
+        const burnEvent = await PhoenixBank.tests.burn({
+          ...mintEvent,
+          address: bankContractAddress,
+          testArgs: {
+            amountHodlTokenToBurn: burnAmount
+          },
+          inputAssets: [
+            {
+              address: testAddress,
+              asset: {
+                alphAmount: ONE_ALPH,
+                tokens: [{ id: tokenId, amount: burnAmount }]
+              }
+            }
+          ],
+          initialFields: mintEvent.contracts[0].fields,
+          initialAsset: mintEvent.contracts[0].asset
+        });
+
+        const priceAfterBurn = await PhoenixBank.tests.getPrice({
+          ...burnEvent,
+          testArgs: {
+            isMint: true
+          },
+          initialFields: burnEvent.contracts[0].fields,
+          initialAsset: burnEvent.contracts[0].asset
+        });
+
+        expect(BigInt(priceAfterBurn.returns.toString())).toBeGreaterThanOrEqual(
+          BigInt(priceAfterMint.returns.toString())
+        );
+
+        prevEvent = burnEvent;
+      }
+    }, 30000);
+
+    it('price should never decrease for any arbitrary sequence of minting and burning actions for native token', async () => {
+      const params = {
+        address: bankContractAddress,
+        initialAsset: {
+          alphAmount: ONE_ALPH,
+          tokens: [
+            {
+              id: baseTokenId,
+              amount: BigInt(1)
+            },
+            {
+              id: hodlTokenId,
+              amount: BigInt(10) ** BigInt(9) - BigInt(1)
+            }
+          ]
+        },
+        initialFields: {
+          creatorAddress: CreatorAddress,
+          baseTokenId: baseTokenId,
+          symbol: stringToHex('HToken'),
+          name: stringToHex('HodlToken'),
+          bankFeeNum: BigInt(30),
+          creatorFeeNum: BigInt(10),
+          decimals: BigInt(0),
+          totalTokenSupply: BigInt(10) ** BigInt(9),
+          minBankValue: BigInt(1),
+          reserveIn: BigInt(1), // base balance
+          hodlTokenIn: BigInt(10) ** BigInt(9) - BigInt(1)
+        },
+        testArgs: {
+          amountHodlTokenDesired: BigInt(1000)
+        },
+        inputAssets: [
+          {
+            address: testAddress,
+            asset: { alphAmount: ONE_ALPH, tokens: [{ id: baseTokenId, amount: BigInt(1000) }] }
+          }
+        ]
+      };
+      let prevEvent = await PhoenixBank.tests.mint(params);
+
+      for (let i = 0; i < NUM_LOOPS; i++) {
+        const reserveBeforeMint = i === 0 ? BigInt(1) : prevEvent.contracts[0].fields.reserveIn;
+        const priceBeforeMint = await PhoenixBank.tests.getPrice({
+          ...prevEvent,
+          testArgs: {
+            isMint: true
+          },
+          initialFields: prevEvent.contracts[0].fields,
+          initialAsset: prevEvent.contracts[0].asset
+        });
+        const circulatingSupplyBeforeMint = await PhoenixBank.tests.getCirculatingSupply({
+          ...prevEvent,
+          initialFields: prevEvent.contracts[0].fields,
+          initialAsset: prevEvent.contracts[0].asset
+        });
+        const mintAmount = BigInt(Math.floor(Math.random() * 100000) + 1);
+        const mintEvent =
+          i === 0
+            ? prevEvent
+            : await PhoenixBank.tests.mint({
+                ...prevEvent,
+                address: bankContractAddress,
+                testArgs: {
+                  amountHodlTokenDesired: mintAmount
+                },
+                inputAssets: [
+                  {
+                    address: testAddress,
+                    asset: {
+                      alphAmount: ONE_ALPH,
+                      tokens: [
+                        {
+                          id: baseTokenId,
+                          amount: divUp(
+                            mintAmount * BigInt(reserveBeforeMint.toString()),
+                            circulatingSupplyBeforeMint.returns
+                          )
+                        }
+                      ]
+                    }
+                  }
+                ],
+                initialFields: prevEvent.contracts[0].fields,
+                initialAsset: prevEvent.contracts[0].asset
+              });
+
+        const priceAfterMint = await PhoenixBank.tests.getPrice({
+          ...mintEvent,
+          testArgs: {
+            isMint: true
+          },
+          initialFields: mintEvent.contracts[0].fields,
+          initialAsset: mintEvent.contracts[0].asset
+        });
+
+        expect(priceBeforeMint.returns.toString()).eq(
+          priceAfterMint.returns.toString(),
+          'price should remain same after mint'
+        );
+
+        const burnAmount = mintEvent.txOutputs
+          .filter((output) => output.address === testAddress)[0]
+          .tokens.filter((t) => t.id === tokenId)[0].amount;
+
+        const burnEvent = await PhoenixBank.tests.burn({
+          ...mintEvent,
+          address: bankContractAddress,
+          testArgs: {
+            amountHodlTokenToBurn: burnAmount
+          },
+          inputAssets: [
+            {
+              address: testAddress,
+              asset: {
+                alphAmount: ONE_ALPH,
+                tokens: [{ id: tokenId, amount: burnAmount }]
+              }
+            }
+          ],
+          initialFields: mintEvent.contracts[0].fields,
+          initialAsset: mintEvent.contracts[0].asset
+        });
+
+        const priceAfterBurn = await PhoenixBank.tests.getPrice({
+          ...burnEvent,
+          testArgs: {
+            isMint: true
+          },
+          initialFields: burnEvent.contracts[0].fields,
+          initialAsset: burnEvent.contracts[0].asset
+        });
+
+        expect(BigInt(priceAfterBurn.returns.toString())).toBeGreaterThanOrEqual(
+          BigInt(priceAfterMint.returns.toString())
+        );
+
+        prevEvent = burnEvent;
+      }
+    }, 30000);
+  });
+
   describe('deposit()', () => {
     it('deposit should work', async () => {
       const params = {
@@ -710,6 +1508,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: ALPH_TOKEN_ID,
           symbol: stringToHex('HALPH'),
           name: stringToHex('HodlAlph'),
@@ -754,6 +1553,7 @@ describe('PhoenixBank', () => {
       const params = {
         address: bankContractAddress,
         initialAsset: {
+          creatorAddress: CreatorAddress,
           alphAmount: ONE_ALPH,
           tokens: [
             {
@@ -767,6 +1567,7 @@ describe('PhoenixBank', () => {
           ]
         },
         initialFields: {
+          creatorAddress: CreatorAddress,
           baseTokenId: baseTokenId,
           symbol: stringToHex('HToken'),
           name: stringToHex('HodlToken'),
