@@ -7,7 +7,9 @@ Contract PhoenixFactory(
     mut active: Bool,
     mut maxDecimals: U256,
     mut maxBankFeeNum: U256,
-    mut maxCreatorFeeNum: U256
+    mut maxCreatorFeeNum: U256,
+    mut minValueDivisor: U256,
+    mut contractCreationALPH: U256
 ) extends PhoenixFactoryConstants(), Owned(selfOwner) {
 
     @using(updateFields = true, checkExternalCaller = true)
@@ -26,7 +28,7 @@ Contract PhoenixFactory(
         fee = newFee
     }
 
-    pub fn getFee() -> (U256) {
+    pub fn getFee() -> U256 {
         return fee
     }
 
@@ -36,7 +38,7 @@ Contract PhoenixFactory(
         active = isActive
     }
 
-    pub fn getActive() -> (Bool) {
+    pub fn getActive() -> Bool {
         return active
     }
 
@@ -46,7 +48,7 @@ Contract PhoenixFactory(
         maxDecimals = newMaxDecimals
     }
 
-    pub fn getMaxDecimals() -> U256 {
+    pub fn getMaxDecimals() -> (U256) {
         return maxDecimals
     }
 
@@ -70,8 +72,28 @@ Contract PhoenixFactory(
         return maxCreatorFeeNum
     }
 
+    @using(updateFields = true, checkExternalCaller = true)
+    pub fn setMinValueDivisor(newMinValueDivisor: U256) -> () {
+        assertOwner(callerAddress!())
+        minValueDivisor = newMinValueDivisor
+    }
+
+    pub fn getMinValueDivisor() -> U256 {
+        return minValueDivisor
+    }
+
+    @using(updateFields = true, checkExternalCaller = true)
+    pub fn setContractCreationALPH(newContractCreationALPH: U256) -> () {
+        assertOwner(callerAddress!())
+        contractCreationALPH = newContractCreationALPH
+    }
+
+    pub fn getContractCreationALPH() -> U256 {
+        return contractCreationALPH
+    }
+
     @using(preapprovedAssets = true, assetsInContract = false, updateFields = false, checkExternalCaller = false)
-    pub fn createContract(baseTokenId: ByteVec, symbol: ByteVec, name: ByteVec, totalSupply: U256, bankFeeNum: U256, creatorFeeNum: U256) -> (ByteVec) {
+    pub fn createContract(baseTokenId: ByteVec, symbol: ByteVec, name: ByteVec, totalSupply: U256, bankFeeNum: U256, creatorFeeNum: U256) -> () {
         
         assert!(active, ErrorCodes.NotActive)
 
@@ -82,9 +104,10 @@ Contract PhoenixFactory(
         assert!(bankFeeNum <= maxBankFeeNum, ErrorCodes.MaxBankFeeNumExceeded)
         assert!(creatorFeeNum <= maxCreatorFeeNum, ErrorCodes.MaxCreatorFeeNumExceeded)
 
-        let oneUnit = 10 ** baseTokenDecimals
+        let oneUnit = (10 ** baseTokenDecimals) / minValueDivisor // allows this to be changed in the future. For BTC its unreasonable to have a minimum of 1 BTC
 
         let (encodedImmFields, encodedMutFields) = PhoenixBank.encodeFields!(
+            caller, // creatorAddress
             baseTokenId,
             symbol,
             name,
@@ -92,13 +115,13 @@ Contract PhoenixFactory(
             creatorFeeNum,
             baseTokenDecimals,
             totalSupply,
-            oneUnit, // min value should be 1 whole unit
+            oneUnit, // min value should be one whole unit
             oneUnit, // balance starts as one whole unit
             totalSupply - oneUnit // one unit removed to avoid divide by zero 
         )
 
         if(baseTokenId == ALPH){
-            let hodlALPHContractId = copyCreateContractWithToken!{caller -> ALPH: 2 alph}(
+            let hodlALPHContractId = copyCreateContractWithToken!{caller -> ALPH: contractCreationALPH + oneUnit}(
                 phoenixBankTemplateId,
                 encodedImmFields,
                 encodedMutFields,
@@ -106,17 +129,15 @@ Contract PhoenixFactory(
             )
             transferToken!(caller, selfOwner, ALPH, fee)
             emit Creation(caller, hodlALPHContractId, ALPH, bankFeeNum)
-            return hodlALPHContractId
         } else {
-            let hodlTokenContractId = copyCreateContractWithToken!{caller -> ALPH: 1 alph, baseTokenId: oneUnit}(
+            let hodlTokenContractId = copyCreateContractWithToken!{caller -> ALPH: contractCreationALPH, baseTokenId: oneUnit}(
                 phoenixBankTemplateId,
                 encodedImmFields,
                 encodedMutFields,
-                totalSupply - oneUnit
+                totalSupply - oneUnit // one unit removed to avoid divide by zero, one unit could also be burned instead of not being minted
             )
             transferToken!(caller, selfOwner, ALPH, fee)
             emit Creation(caller, hodlTokenContractId, baseTokenId, bankFeeNum)
-            return hodlTokenContractId
         }
     }
 }
