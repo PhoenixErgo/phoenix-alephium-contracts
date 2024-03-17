@@ -1,8 +1,8 @@
 {
-  "version": "v2.8.6",
+  "version": "v2.10.3",
   "name": "PhoenixFactory",
-  "bytecode": "070f1640284035403e404b40544061406a40774080408d409640a340ac417c00000101000ab4b24513405a7b1600a0014513405a7b010001010007b4a0014513405a7b1600a101010001010004b400001600a100010000000102a00002010001010004b400001600a102010000000102a00202010001010004b400001600a103010000000102a00302010001010004b400001600a104010000000102a00402010001010004b400001600a105010000000102a00502010001010004b400001600a106010000000102a006020103060d01406da0030d7bb417061600cd414c0213124a040c0d1600010217071607a004320e7b1604a005320f7b1605a00632107b130a1607831708160016011602160416051607160316081406414c504800011309641608160316082b130264170a17091600cd414c18160613c41bc16d674ec80000a2a0001609160a160316082bbc170b1606a001a002a7051606160bcd160461160b024a1b16067a13c40de0b6b3a7640000a216001608a3a0001609160a160316082bbc170c1606a001a002a7051606160c1600160461160c02",
-  "codeHash": "639cbaf85b0c751b96ec7dfef2cc0412a7c55bc9151be78c2df59e40c5bc1c33",
+  "bytecode": "09131640284035403e404b40544061406a40774080408d409640a340ac40b940c240cf40d8419a00000101000ab4b24513405a7b1600a0014513405a7b010001010007b4a0014513405a7b1600a101010001010004b400001600a100010000000102a00002010001010004b400001600a102010000000102a00202010001010004b400001600a103010000000102a00302010001010004b400001600a104010000000102a00402010001010004b400001600a105010000000102a00502010001010004b400001600a106010000000102a00602010001010004b400001600a107010000000102a00702010001010004b400001600a108010000000102a008020103060d00406ea0030c7bb417061600cd414c0213124a040c0d1600010217071607a004320d7b1604a005320e7b1605a006320f7b130a160783a0072d17081606160016011602160416051607160316081406414c50480001130a641608160316082b130264170a17091600cd414c181606a00816082aa2a0001609160a160316082bbc170b1606a001a002a7051606160bcd1604614a1916067aa008a216001608a3a0001609160a160316082bbc170c1606a001a002a7051606160c1600160461",
+  "codeHash": "43b5af53a35fb9c15a254ca0ce5c4b326cd8054a9c1ac6896948f4812bcd50b9",
   "fieldsSig": {
     "names": [
       "phoenixBankTemplateId",
@@ -11,7 +11,9 @@
       "active",
       "maxDecimals",
       "maxBankFeeNum",
-      "maxCreatorFeeNum"
+      "maxCreatorFeeNum",
+      "minValueDivisor",
+      "contractCreationALPH"
     ],
     "types": [
       "ByteVec",
@@ -20,9 +22,13 @@
       "Bool",
       "U256",
       "U256",
+      "U256",
+      "U256",
       "U256"
     ],
     "isMutable": [
+      true,
+      true,
       true,
       true,
       true,
@@ -251,6 +257,62 @@
       ]
     },
     {
+      "name": "setMinValueDivisor",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [
+        "newMinValueDivisor"
+      ],
+      "paramTypes": [
+        "U256"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "getMinValueDivisor",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "setContractCreationALPH",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [
+        "newContractCreationALPH"
+      ],
+      "paramTypes": [
+        "U256"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "getContractCreationALPH",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
       "name": "createContract",
       "usePreapprovedAssets": true,
       "useAssetsInContract": false,
@@ -279,9 +341,7 @@
         false,
         false
       ],
-      "returnTypes": [
-        "ByteVec"
-      ]
+      "returnTypes": []
     }
   ],
   "constants": [],
@@ -293,28 +353,28 @@
           "name": "NotActive",
           "value": {
             "type": "U256",
-            "value": "1"
+            "value": "0"
           }
         },
         {
           "name": "MaxDecimalsExceeded",
           "value": {
             "type": "U256",
-            "value": "2"
+            "value": "1"
           }
         },
         {
           "name": "MaxBankFeeNumExceeded",
           "value": {
             "type": "U256",
-            "value": "3"
+            "value": "2"
           }
         },
         {
           "name": "MaxCreatorFeeNumExceeded",
           "value": {
             "type": "U256",
-            "value": "4"
+            "value": "3"
           }
         }
       ]

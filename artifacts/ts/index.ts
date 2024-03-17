@@ -4,5 +4,4 @@
 
 export * from "./PhoenixBank";
 export * from "./PhoenixFactory";
-export * from "./USDToken";
 export * from "./scripts";

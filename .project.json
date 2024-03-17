@@ -1,5 +1,5 @@
 {
-  "fullNodeVersion": "v2.8.6",
+  "fullNodeVersion": "v2.10.3",
   "compilerOptionsUsed": {
     "ignoreUnusedConstantsWarnings": false,
     "ignoreUnusedVariablesWarnings": false,
@@ -11,76 +11,90 @@
   "infos": {
     "ChangeActive": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "ChangeBank": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
+      "bytecodeDebugPatch": "",
+      "codeHashDebug": "",
+      "warnings": []
+    },
+    "ChangeContractCreationALPH": {
+      "sourceFile": "scripts.ral",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "ChangeFee": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "ChangeMaxBankFeeNum": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "ChangeMaxCreatorFeeNum": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "ChangeMaxDecimals": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
+      "bytecodeDebugPatch": "",
+      "codeHashDebug": "",
+      "warnings": []
+    },
+    "ChangeMinValueDivisor": {
+      "sourceFile": "scripts.ral",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "ChangeOwner": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "CreateContract": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "IFungibleToken": {
-      "sourceFile": "..\\..\\..\\..\\..\\..\\AppData\\Local\\npm-cache\\_npx\\f1b120e1b513c04c\\node_modules\\@alephium\\web3\\std\\fungible_token_interface.ral",
+      "sourceFile": "../../../../../../../../../../tmp/@alephium/cli@latest--bunx/node_modules/@alephium/web3/std/fungible_token_interface.ral",
       "sourceCodeHash": "6809cb06fb20fa7edf529461998beeebd12b1636d439612cca2f84214dbf4a20",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "IPhoenixHodl": {
-      "sourceFile": "interfaces\\phoenix_hodl_interface.ral",
-      "sourceCodeHash": "891012955cd0c7059b52534cae95d6f0100f03394b401fb9c97ac4016b4309bf",
+      "sourceFile": "interfaces/phoenix_hodl_interface.ral",
+      "sourceCodeHash": "fa0058757ce6796e3934fd5e8cffd89c75b43c6279c99c5ef8c18838b4cd6287",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "Owned": {
-      "sourceFile": "traits\\owned.ral",
+      "sourceFile": "traits/owned.ral",
       "sourceCodeHash": "0ef251900385d40b43257da3a54ff0acbf5e77c0a605dc63036d659fe5052cbb",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
@@ -88,63 +102,49 @@
     },
     "PhoenixBank": {
       "sourceFile": "phoenix_bank.ral",
-      "sourceCodeHash": "4917802a62746a270b9e4aa844a7e097a090ac2b1ecf2a40a98c3a97ecefaefb",
+      "sourceCodeHash": "b2cea88a7c81fc43011f91fe5e354962864b17bdb71015917aea9a8bede3381d",
       "bytecodeDebugPatch": "",
-      "codeHashDebug": "b23a43a16439bb6fddae2e8107cd371f50ae226788a5309274390a261090e275",
+      "codeHashDebug": "6e9ae0566f6bff8ff74a3f5ca17570457d26bf1b600709ec0526179e848da1cc",
       "warnings": []
     },
     "PhoenixBurn": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "PhoenixConstants": {
-      "sourceFile": "traits\\phoenix_constants.ral",
-      "sourceCodeHash": "25e5abf146aeb50c7561db64d1cf30758d4e55e17ed2b961c539714af5a62d4f",
+      "sourceFile": "traits/phoenix_constants.ral",
+      "sourceCodeHash": "eece36147e9702d7a0f25f0aaac0d561264a4ddda4e94f763598af30158ec7fe",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "PhoenixDeposit": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "PhoenixFactory": {
       "sourceFile": "phoenix_factory.ral",
-      "sourceCodeHash": "a5f52ed979725290167c434c0b33088ccdfbea68dc9155bdf6cd7fe4b56e5dff",
+      "sourceCodeHash": "3dd3949f9b165c1e4c61337a1ae4bae1f8b4dd4ff7077e8ab7b8c8e129b9cc10",
       "bytecodeDebugPatch": "",
-      "codeHashDebug": "639cbaf85b0c751b96ec7dfef2cc0412a7c55bc9151be78c2df59e40c5bc1c33",
+      "codeHashDebug": "43b5af53a35fb9c15a254ca0ce5c4b326cd8054a9c1ac6896948f4812bcd50b9",
       "warnings": []
     },
     "PhoenixFactoryConstants": {
-      "sourceFile": "traits\\phoenix_factory_constants.ral",
-      "sourceCodeHash": "bc8954059085a9e3228e27198a136f0e0f19e5558e940ba67f728b4a993958c2",
+      "sourceFile": "traits/phoenix_factory_constants.ral",
+      "sourceCodeHash": "323d5ec881f9a21148e782c45929dfbb7181c045cdb6507dffd0670cf553f112",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []
     },
     "PhoenixMint": {
       "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
-      "bytecodeDebugPatch": "",
-      "codeHashDebug": "",
-      "warnings": []
-    },
-    "USDToken": {
-      "sourceFile": "tokens\\usd_token.ral",
-      "sourceCodeHash": "639b1949372c3f81f87fe15340258b91e9552b3d005643ec1edf940afe8c3427",
-      "bytecodeDebugPatch": "",
-      "codeHashDebug": "69324141d38ba40b9a9b64a650372b9c26b5db5b05e50b33b13447776c1ac587",
-      "warnings": []
-    },
-    "Withdraw": {
-      "sourceFile": "scripts.ral",
-      "sourceCodeHash": "cf1c956096b8cf14fba3c886c44a7bdd6fd11aabf19e12fd16c0b1dc1faa863e",
+      "sourceCodeHash": "ffff2c97960c0eb8789ffe90abd0d453c0beb1b374fe22729df272d7f7192bf6",
       "bytecodeDebugPatch": "",
       "codeHashDebug": "",
       "warnings": []

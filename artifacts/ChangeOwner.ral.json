@@ -1,5 +1,5 @@
 {
-  "version": "v2.8.6",
+  "version": "v2.10.3",
   "name": "ChangeOwner",
   "bytecodeTemplate": "01010300000005{1}0d0c{0}0101",
   "fieldsSig": {
@@ -8,7 +8,7 @@
       "newOwner"
     ],
     "types": [
-      "ByteVec",
+      "PhoenixFactory",
       "Address"
     ],
     "isMutable": [

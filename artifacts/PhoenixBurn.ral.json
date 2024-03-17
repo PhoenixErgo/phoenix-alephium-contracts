@@ -1,7 +1,7 @@
 {
-  "version": "v2.8.6",
+  "version": "v2.10.3",
   "name": "PhoenixBurn",
-  "bytecodeTemplate": "0101030001001c{2}0c334c061500a1576bfca455aaf9035af6ab0deef059b398716c284754f02bc2f2623068ca951700b41600{2}a7b4{0}{1}a3b413c3038d7ea4c6800013c3038d7ea4c680002a13c3038d7ea4c680002a13c3038d7ea4c680002aa2{1}0d0c{0}010f",
+  "bytecodeTemplate": "0101030001001c{2}0c334c061500aa71682721d608c34f4fc24729f5df5b40cd09a1a4a145b4f166afd4911f55921700b41600{2}a7b4{0}{1}a3b413c3038d7ea4c6800013c3038d7ea4c680002a13c3038d7ea4c680002a13c3038d7ea4c680002aa2{1}0d0c{0}010f",
   "fieldsSig": {
     "names": [
       "bank",
@@ -9,7 +9,7 @@
       "interfaceFee"
     ],
     "types": [
-      "ByteVec",
+      "PhoenixBank",
       "U256",
       "U256"
     ],

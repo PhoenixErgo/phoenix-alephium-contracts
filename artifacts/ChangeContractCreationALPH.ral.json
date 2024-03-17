@@ -1,14 +1,14 @@
 {
-  "version": "v2.8.6",
-  "name": "Withdraw",
-  "bytecodeTemplate": "01010300000005{1}0d0c{0}0104",
+  "version": "v2.10.3",
+  "name": "ChangeContractCreationALPH",
+  "bytecodeTemplate": "01010300000005{1}0d0c{0}0110",
   "fieldsSig": {
     "names": [
-      "token",
-      "amount"
+      "factory",
+      "newContractCreationALPH"
     ],
     "types": [
-      "ByteVec",
+      "PhoenixFactory",
       "U256"
     ],
     "isMutable": [

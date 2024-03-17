@@ -30,6 +30,7 @@ import { getContractByCodeHash } from "./contracts";
 // Custom types for the contract
 export namespace PhoenixBankTypes {
   export type Fields = {
+    creatorAddress: Address;
     baseTokenId: HexString;
     symbol: HexString;
     name: HexString;
@@ -113,8 +114,12 @@ export namespace PhoenixBankTypes {
       result: CallContractResult<bigint>;
     };
     getPrice: {
-      params: Omit<CallContractParams<{}>, "args">;
+      params: CallContractParams<{ isMint: boolean }>;
       result: CallContractResult<bigint>;
+    };
+    getCreatorAddress: {
+      params: Omit<CallContractParams<{}>, "args">;
+      result: CallContractResult<Address>;
     };
   }
   export type CallMethodParams<T extends keyof CallMethodTable> =
@@ -142,14 +147,12 @@ class Factory extends ContractFactory<
   eventIndex = { Mint: 0, Burn: 1, Deposit: 2 };
   consts = {
     FeeDenom: BigInt(1000),
-    PhoenixAddress: "1BroxRnYkkPrmur5LeBTYwbF2WzsKPb1jJLkbJC3LuJwe",
-    BrunoAddress: "13JRgHCUFnJcHXAx52QvSQ1MgghJiyyAMGMvLT9t3NaRc",
-    CreatorAddress: "14pjHtCtxQ5UQfZJ8vQiyQwXvgRg9rnUipdL9JSjCQfm8",
+    PhoenixAddress: "1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ",
+    BrunoAddress: "13UsdFLqmkN9SASBh7MLL6QEhjsfGp2CKmJZrERyMcVAo",
     ErrorCodes: {
       ZeroCirculation: BigInt(0),
       ZeroReserve: BigInt(1),
-      InvalidCaller: BigInt(2),
-      DivideByZero: BigInt(3),
+      DivideByZero: BigInt(2),
     },
   };
 
@@ -263,10 +266,7 @@ class Factory extends ContractFactory<
       return testMethod(this, "getCirculatingSupply", params);
     },
     getPrice: async (
-      params: Omit<
-        TestContractParams<PhoenixBankTypes.Fields, never>,
-        "testArgs"
-      >
+      params: TestContractParams<PhoenixBankTypes.Fields, { isMint: boolean }>
     ): Promise<TestContractResult<bigint>> => {
       return testMethod(this, "getPrice", params);
     },
@@ -310,6 +310,14 @@ class Factory extends ContractFactory<
     ): Promise<TestContractResult<bigint>> => {
       return testMethod(this, "divUp", params);
     },
+    getCreatorAddress: async (
+      params: Omit<
+        TestContractParams<PhoenixBankTypes.Fields, never>,
+        "testArgs"
+      >
+    ): Promise<TestContractResult<Address>> => {
+      return testMethod(this, "getCreatorAddress", params);
+    },
   };
 }
 
@@ -318,7 +326,7 @@ export const PhoenixBank = new Factory(
   Contract.fromJson(
     PhoenixBankContractJson,
     "",
-    "b23a43a16439bb6fddae2e8107cd371f50ae226788a5309274390a261090e275"
+    "6e9ae0566f6bff8ff74a3f5ca17570457d26bf1b600709ec0526179e848da1cc"
   )
 );
 
@@ -536,12 +544,23 @@ export class PhoenixBankInstance extends ContractInstance {
       );
     },
     getPrice: async (
-      params?: PhoenixBankTypes.CallMethodParams<"getPrice">
+      params: PhoenixBankTypes.CallMethodParams<"getPrice">
     ): Promise<PhoenixBankTypes.CallMethodResult<"getPrice">> => {
       return callMethod(
         PhoenixBank,
         this,
         "getPrice",
+        params,
+        getContractByCodeHash
+      );
+    },
+    getCreatorAddress: async (
+      params?: PhoenixBankTypes.CallMethodParams<"getCreatorAddress">
+    ): Promise<PhoenixBankTypes.CallMethodResult<"getCreatorAddress">> => {
+      return callMethod(
+        PhoenixBank,
+        this,
+        "getCreatorAddress",
         params === undefined ? {} : params,
         getContractByCodeHash
       );

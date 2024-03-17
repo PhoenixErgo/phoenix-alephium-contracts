@@ -1,5 +1,5 @@
 {
-  "version": "v2.8.6",
+  "version": "v2.10.3",
   "name": "ChangeMaxDecimals",
   "bytecodeTemplate": "01010300000005{1}0d0c{0}0108",
   "fieldsSig": {
@@ -8,7 +8,7 @@
       "newMaxDecimals"
     ],
     "types": [
-      "ByteVec",
+      "PhoenixFactory",
       "U256"
     ],
     "isMutable": [

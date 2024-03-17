@@ -37,6 +37,8 @@ export namespace PhoenixFactoryTypes {
     maxDecimals: bigint;
     maxBankFeeNum: bigint;
     maxCreatorFeeNum: bigint;
+    minValueDivisor: bigint;
+    contractCreationALPH: bigint;
   };
 
   export type State = ContractState<Fields>;
@@ -73,16 +75,13 @@ export namespace PhoenixFactoryTypes {
       params: Omit<CallContractParams<{}>, "args">;
       result: CallContractResult<bigint>;
     };
-    createContract: {
-      params: CallContractParams<{
-        baseTokenId: HexString;
-        symbol: HexString;
-        name: HexString;
-        totalSupply: bigint;
-        bankFeeNum: bigint;
-        creatorFeeNum: bigint;
-      }>;
-      result: CallContractResult<HexString>;
+    getMinValueDivisor: {
+      params: Omit<CallContractParams<{}>, "args">;
+      result: CallContractResult<bigint>;
+    };
+    getContractCreationALPH: {
+      params: Omit<CallContractParams<{}>, "args">;
+      result: CallContractResult<bigint>;
     };
   }
   export type CallMethodParams<T extends keyof CallMethodTable> =
@@ -110,10 +109,10 @@ class Factory extends ContractFactory<
   eventIndex = { Creation: 0 };
   consts = {
     ErrorCodes: {
-      NotActive: BigInt(1),
-      MaxDecimalsExceeded: BigInt(2),
-      MaxBankFeeNumExceeded: BigInt(3),
-      MaxCreatorFeeNumExceeded: BigInt(4),
+      NotActive: BigInt(0),
+      MaxDecimalsExceeded: BigInt(1),
+      MaxBankFeeNumExceeded: BigInt(2),
+      MaxCreatorFeeNumExceeded: BigInt(3),
     },
     OwnedError: { Forbidden: BigInt(90) },
   };
@@ -232,6 +231,38 @@ class Factory extends ContractFactory<
     ): Promise<TestContractResult<bigint>> => {
       return testMethod(this, "getMaxCreatorFeeNum", params);
     },
+    setMinValueDivisor: async (
+      params: TestContractParams<
+        PhoenixFactoryTypes.Fields,
+        { newMinValueDivisor: bigint }
+      >
+    ): Promise<TestContractResult<null>> => {
+      return testMethod(this, "setMinValueDivisor", params);
+    },
+    getMinValueDivisor: async (
+      params: Omit<
+        TestContractParams<PhoenixFactoryTypes.Fields, never>,
+        "testArgs"
+      >
+    ): Promise<TestContractResult<bigint>> => {
+      return testMethod(this, "getMinValueDivisor", params);
+    },
+    setContractCreationALPH: async (
+      params: TestContractParams<
+        PhoenixFactoryTypes.Fields,
+        { newContractCreationALPH: bigint }
+      >
+    ): Promise<TestContractResult<null>> => {
+      return testMethod(this, "setContractCreationALPH", params);
+    },
+    getContractCreationALPH: async (
+      params: Omit<
+        TestContractParams<PhoenixFactoryTypes.Fields, never>,
+        "testArgs"
+      >
+    ): Promise<TestContractResult<bigint>> => {
+      return testMethod(this, "getContractCreationALPH", params);
+    },
     createContract: async (
       params: TestContractParams<
         PhoenixFactoryTypes.Fields,
@@ -244,7 +275,7 @@ class Factory extends ContractFactory<
           creatorFeeNum: bigint;
         }
       >
-    ): Promise<TestContractResult<HexString>> => {
+    ): Promise<TestContractResult<null>> => {
       return testMethod(this, "createContract", params);
     },
   };
@@ -255,7 +286,7 @@ export const PhoenixFactory = new Factory(
   Contract.fromJson(
     PhoenixFactoryContractJson,
     "",
-    "639cbaf85b0c751b96ec7dfef2cc0412a7c55bc9151be78c2df59e40c5bc1c33"
+    "43b5af53a35fb9c15a254ca0ce5c4b326cd8054a9c1ac6896948f4812bcd50b9"
   )
 );
 
@@ -355,14 +386,27 @@ export class PhoenixFactoryInstance extends ContractInstance {
         getContractByCodeHash
       );
     },
-    createContract: async (
-      params: PhoenixFactoryTypes.CallMethodParams<"createContract">
-    ): Promise<PhoenixFactoryTypes.CallMethodResult<"createContract">> => {
+    getMinValueDivisor: async (
+      params?: PhoenixFactoryTypes.CallMethodParams<"getMinValueDivisor">
+    ): Promise<PhoenixFactoryTypes.CallMethodResult<"getMinValueDivisor">> => {
       return callMethod(
         PhoenixFactory,
         this,
-        "createContract",
-        params,
+        "getMinValueDivisor",
+        params === undefined ? {} : params,
+        getContractByCodeHash
+      );
+    },
+    getContractCreationALPH: async (
+      params?: PhoenixFactoryTypes.CallMethodParams<"getContractCreationALPH">
+    ): Promise<
+      PhoenixFactoryTypes.CallMethodResult<"getContractCreationALPH">
+    > => {
+      return callMethod(
+        PhoenixFactory,
+        this,
+        "getContractCreationALPH",
+        params === undefined ? {} : params,
         getContractByCodeHash
       );
     },

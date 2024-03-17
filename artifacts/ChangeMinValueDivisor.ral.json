@@ -1,15 +1,15 @@
 {
   "version": "v2.10.3",
-  "name": "ChangeActive",
-  "bytecodeTemplate": "01010300000005{1}0d0c{0}0106",
+  "name": "ChangeMinValueDivisor",
+  "bytecodeTemplate": "01010300000005{1}0d0c{0}010e",
   "fieldsSig": {
     "names": [
       "factory",
-      "isActive"
+      "newMinValueDivisor"
     ],
     "types": [
       "PhoenixFactory",
-      "Bool"
+      "U256"
     ],
     "isMutable": [
       false,
