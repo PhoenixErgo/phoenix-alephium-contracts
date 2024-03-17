@@ -7,25 +7,25 @@ Interface IPhoenixHodl extends IFungibleToken {
     event Burn(address: Address, amountHodlToken: U256, newPrice: U256)
     event Deposit(address: Address, amountHodlToken: U256, newPrice: U256)
     
-    pub fn getbaseTokenId() -> (ByteVec)
+    pub fn getbaseTokenId() -> ByteVec
 
-    pub fn getBankFeeNum() -> (U256)
+    pub fn getBankFeeNum() -> U256
 
-    pub fn getCreatorFeeNum() -> (U256)
+    pub fn getCreatorFeeNum() -> U256
 
-    pub fn getMinBankValue() -> (U256)
+    pub fn getMinBankValue() -> U256
 
-    pub fn getBaseBalance() -> (U256)
+    pub fn getBaseBalance() -> U256
 
-    pub fn getHodlTokenBalance() -> (U256)
+    pub fn getHodlTokenBalance() -> U256
 
-    pub fn getDevFeeNum() -> (U256)
+    pub fn getDevFeeNum() -> U256
 
-    pub fn getFeeDenom() -> (U256)
+    pub fn getFeeDenom() -> U256
 
-    pub fn getCirculatingSupply() -> (U256)
+    pub fn getCirculatingSupply() -> U256
 
-    pub fn getPrice() -> (U256)
+    pub fn getPrice(isMint: Bool) -> U256
 
     @using(preapprovedAssets = true, assetsInContract = true, updateFields = true, checkExternalCaller = false)
     pub fn mint(amountHodlALPHDesired: U256) -> ()
@@ -40,5 +40,5 @@ Interface IPhoenixHodl extends IFungibleToken {
     @using(preapprovedAssets = true, assetsInContract = true, updateFields = false, checkExternalCaller = false)
     fn payDevs(amountToDistribute: U256) -> ()
 
-    fn divUp(dividend: U256, divisor: U256) -> (U256)
+    fn divUp(dividend: U256, divisor: U256) -> U256
 }
