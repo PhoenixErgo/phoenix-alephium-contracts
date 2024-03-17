@@ -17,7 +17,9 @@ const deployFactory: DeployFunction<{}> = async (
       active: true,
       maxDecimals: BigInt(18),
       maxBankFeeNum: BigInt(500),
-      maxCreatorFeeNum: BigInt(200)
+      maxCreatorFeeNum: BigInt(200),
+      minValueDivisor: BigInt(1),
+      contractCreationALPH: ONE_ALPH
     },
     initialAttoAlphAmount: ONE_ALPH
   });

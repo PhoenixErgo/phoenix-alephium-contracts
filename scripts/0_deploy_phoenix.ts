@@ -11,6 +11,7 @@ const deployBank: DeployFunction<{}> = async (
   const result = await deployer.deployContract(PhoenixBank, {
     issueTokenAmount: ONE_ALPH * 10n ** 9n - ONE_ALPH,
     initialFields: {
+      creatorAddress: '',
       baseTokenId: ALPH_TOKEN_ID,
       symbol: Buffer.from('HALPH', 'utf8').toString('hex'),
       name: Buffer.from('hodlALPH', 'utf8').toString('hex'),
