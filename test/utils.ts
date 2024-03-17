@@ -1,6 +1,6 @@
 import { Project, web3 } from '@alephium/web3';
 
 export async function prepareForTests() {
-  web3.setCurrentNodeProvider('http://127.0.0.1:22973');
+  web3.setCurrentNodeProvider('https://lb-fullnode-alephium.notrustverify.ch');
   await Project.build();
 }
