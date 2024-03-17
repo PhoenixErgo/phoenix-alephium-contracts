@@ -39,5 +39,8 @@
     "@alephium/web3": "^0.31.2",
     "@alephium/web3-test": "^0.31.2",
     "dotenv": "^16.4.5"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.6.1"
   }
 }
