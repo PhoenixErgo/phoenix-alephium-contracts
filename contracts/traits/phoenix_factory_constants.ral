@@ -7,5 +7,6 @@ Abstract Contract PhoenixFactoryConstants(){
         MaxDecimalsExceeded = 1
         MaxBankFeeNumExceeded = 2
         MaxCreatorFeeNumExceeded = 3
+        MinNotMet = 4
     }
 }

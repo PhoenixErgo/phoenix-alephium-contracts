@@ -101,6 +101,7 @@ Contract PhoenixFactory(
         let baseTokenDecimals = if(baseTokenId == ALPH) 18 else IFungibleToken(baseTokenId).getDecimals()
 
         assert!(baseTokenDecimals <= maxDecimals, ErrorCodes.MaxDecimalsExceeded)
+        assert!(bankFeeNum >= 10, ErrorCodes.MinNotMet)
         assert!(bankFeeNum <= maxBankFeeNum, ErrorCodes.MaxBankFeeNumExceeded)
         assert!(creatorFeeNum <= maxCreatorFeeNum, ErrorCodes.MaxCreatorFeeNumExceeded)
 
