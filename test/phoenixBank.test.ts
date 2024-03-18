@@ -14,7 +14,7 @@ const NUM_LOOPS = 10;
 
 describe('PhoenixBank', () => {
   const PhoenixAddress = '1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ';
-  const BrunoAddress = '13UsdFLqmkN9SASBh7MLL6QEhjsfGp2CKmJZrERyMcVAo';
+  const BrunoAddress = '12vQhNocmdeth7uxESTUkms8Kre9UPfyzwRMv4asGnxLM';
   const CreatorAddress = '14pjHtCtxQ5UQfZJ8vQiyQwXvgRg9rnUipdL9JSjCQfm8';
 
   const tokenId = '1a281053ba8601a658368594da034c2e99a0fb951b86498d05e76aedfe666800';
