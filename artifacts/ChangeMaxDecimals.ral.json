@@ -1,0 +1,31 @@
+{
+  "version": "v2.10.1",
+  "name": "ChangeMaxDecimals",
+  "bytecodeTemplate": "01010300000005{1}0d0c{0}0108",
+  "fieldsSig": {
+    "names": [
+      "factory",
+      "newMaxDecimals"
+    ],
+    "types": [
+      "PhoenixFactory",
+      "U256"
+    ],
+    "isMutable": [
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}

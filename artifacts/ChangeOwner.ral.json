@@ -1,0 +1,31 @@
+{
+  "version": "v2.10.1",
+  "name": "ChangeOwner",
+  "bytecodeTemplate": "01010300000005{1}0d0c{0}0101",
+  "fieldsSig": {
+    "names": [
+      "factory",
+      "newOwner"
+    ],
+    "types": [
+      "PhoenixFactory",
+      "Address"
+    ],
+    "isMutable": [
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}

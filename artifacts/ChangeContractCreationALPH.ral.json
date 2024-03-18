@@ -1,0 +1,31 @@
+{
+  "version": "v2.10.1",
+  "name": "ChangeContractCreationALPH",
+  "bytecodeTemplate": "01010300000005{1}0d0c{0}0110",
+  "fieldsSig": {
+    "names": [
+      "factory",
+      "newContractCreationALPH"
+    ],
+    "types": [
+      "PhoenixFactory",
+      "U256"
+    ],
+    "isMutable": [
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}
