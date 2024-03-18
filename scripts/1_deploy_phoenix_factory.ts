@@ -12,9 +12,9 @@ const deployFactory: DeployFunction<{}> = async (
   const result = await deployer.deployContract(PhoenixFactory, {
     initialFields: {
       phoenixBankTemplateId: fundTemplateResult.contractInstance.contractId,
-      selfOwner: '158qs4SAj1tKPMJq2M4VjYqpewrdZ71EFmpRhZVEGsxeq',
+      selfOwner: '1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ', //testnet: 1BQqK3WZFJ3KFv9kBfUUQumiLwhFFHMydPBbvsNXBaBXP
       fee: ONE_ALPH,
-      active: true,
+      active: false,
       maxDecimals: BigInt(18),
       maxBankFeeNum: BigInt(500),
       maxCreatorFeeNum: BigInt(200),

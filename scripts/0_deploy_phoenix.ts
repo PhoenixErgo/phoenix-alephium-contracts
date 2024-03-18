@@ -11,12 +11,12 @@ const deployBank: DeployFunction<{}> = async (
   const result = await deployer.deployContract(PhoenixBank, {
     issueTokenAmount: ONE_ALPH * 10n ** 9n - ONE_ALPH,
     initialFields: {
-      creatorAddress: '',
+      creatorAddress: '1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ', // testnet: 1BQqK3WZFJ3KFv9kBfUUQumiLwhFFHMydPBbvsNXBaBXP
       baseTokenId: ALPH_TOKEN_ID,
       symbol: Buffer.from('HALPH', 'utf8').toString('hex'),
       name: Buffer.from('hodlALPH', 'utf8').toString('hex'),
       bankFeeNum: BigInt(30),
-      creatorFeeNum: BigInt(10),
+      creatorFeeNum: BigInt(0),
       decimals: BigInt(18),
       totalTokenSupply: ONE_ALPH * 10n ** 9n,
       minBankValue: ONE_ALPH,
