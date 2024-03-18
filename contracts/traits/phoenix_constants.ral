@@ -2,7 +2,7 @@ Abstract Contract PhoenixConstants(){
     const FeeDenom = 1000
 
     const PhoenixAddress = @1CULcAHptZtG2NYfAwLxHQ4Zxqj8TyyLPiLsbakR1ndrZ
-    const BrunoAddress = @13UsdFLqmkN9SASBh7MLL6QEhjsfGp2CKmJZrERyMcVAo
+    const BrunoAddress = @12vQhNocmdeth7uxESTUkms8Kre9UPfyzwRMv4asGnxLM
 
     enum ErrorCodes {
         ZeroCirculation = 0
