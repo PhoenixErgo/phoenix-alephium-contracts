@@ -23,15 +23,19 @@ const config: Configuration<unknown> = {
     },
     testnet: {
       nodeUrl:
-        process.env.NODE_URL ??
+        process.env.TESTNET_NODE_URL ??
         'https://wallet-v20.testnet.alephium.org',
-      privateKeys: privateKeys(),
+      privateKeys: [
+        process.env.TESTNET_PRIVATE_KEY as string
+      ],
+      confirmations: 1,
       settings: defaultSettings,
     },
     mainnet: {
-      nodeUrl: process.env.NODE_URL ??
+      nodeUrl: process.env.MAINNET_NODE_URL ??
         'https://wallet-v20.mainnet.alephium.org',
       privateKeys: privateKeys(),
+      confirmations: 1,
       settings: defaultSettings,
     },
   },
